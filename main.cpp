@@ -61,8 +61,8 @@ int main() {
 	floor.createObject(ground, sizeof(ground) / sizeof(GLfloat), groundIndices, sizeof(groundIndices) / sizeof(int));
 	floorSquare.createObject(groundSquare, sizeof(groundSquare) / sizeof(GLfloat), groundSquareIndices, sizeof(groundSquareIndices) / sizeof(int));
 	//======================== Player Mage ==============================================
-	//std::unique_ptr<Mage> mage = std::make_unique<Mage>();
-	Mage* mage = new Mage;
+	std::unique_ptr<Mage> mage = std::make_unique<Mage>();
+	//Mage* mage = new Mage;
 	mage->createMage(playerSquare, sizeof(playerSquare) / sizeof(GLfloat), playerSquareIndices, sizeof(playerSquareIndices) / sizeof(int));
 	//======================== Transformation matrices ==================================
 	glm::mat4 staticFloor = glm::mat4(1.0f); // floor
@@ -73,7 +73,7 @@ int main() {
 	glm::mat4 playerMovement = glm::mat4(1.0f); // player
 	GLuint playerMovementLocation = glGetUniformLocation(shaderProgram, "transform");
 	mage->magePosition = glm::vec3(960.0f, 540.0f, 0.0f);
-	mage->mageVelocity = glm::vec3(600.0f, 600.0f, 0.0f);
+	mage->mageVelocity = glm::vec3(2000.0f, 4000.0f, 0.0f);
 	//======================== Camera ===================================================
 	Camera camera;
 	camera.createCamera();
@@ -104,14 +104,14 @@ int main() {
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
 			mage->magePosition.y += mage->mageVelocity.y * deltaTime;
 		}
-		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			mage->magePosition.y -= mage->mageVelocity.y * deltaTime;
-		}
-		else if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
 			mage->magePosition.x += mage->mageVelocity.x * deltaTime;
 		}
-		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			mage->magePosition.x -= mage->mageVelocity.y * deltaTime;
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+			mage->magePosition.x -= mage->mageVelocity.x * deltaTime;
+		}
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+			std::cout << "Position X: " << mage->magePosition.x;
 		}
 		glUniformMatrix4fv(playerMovementLocation, 1, GL_FALSE, glm::value_ptr(playerMovement));
 		mage->drawMage();
@@ -122,9 +122,9 @@ int main() {
 			camera.cameraPosition.y = mage->magePosition.y - 540.0f;
 		}
 		//gravity, ACTIVATE IT WHEN NEEDED
-		mage->magePosition.y -= 0.1f;
+		mage->magePosition.y -= 1.0f;
 
-		mage->collisionMage(mage, floor);
+		mage->collisionMage(mage.get(), floor);
 		
 		glfwSwapBuffers(window);
 	}

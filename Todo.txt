@@ -1,0 +1,1 @@
+- I need to implement a jumping system and a proper system for gravity. As it is right now, it's very basic and not looking good
