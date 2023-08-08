@@ -1,6 +1,9 @@
 #pragma once
 
-enum gameState {
+enum GameState {
 	gameMenu,
 	gameRunning,
+	gameOptions
 };
+
+GameState gameState = gameMenu;
