@@ -69,19 +69,19 @@ int main() {
 	glm::mat4 menuBoxOne = glm::mat4(1.0f);
 	GLuint menuBox1Location = glGetUniformLocation(shaderProgram, "transform");
 	menuBox1.position = glm::vec3(1700.0f, 900.0f, 0.0f);
-	menuBox1.width = 100;
+	menuBox1.width = 125;
 	menuBox1.height = 25;
 
 	glm::mat4 menuBoxTwo = glm::mat4(1.0f);
 	GLuint menuBox2Location = glGetUniformLocation(shaderProgram, "transform");
 	menuBox2.position = glm::vec3(1700.0f, 800.0f, 0.0f);
-	menuBox2.width = 100;
+	menuBox2.width = 125;
 	menuBox2.height = 25;
 
 	glm::mat4 menuBoxThree = glm::mat4(1.0f);
 	GLuint menuBox3Location = glGetUniformLocation(shaderProgram, "transform");
 	menuBox3.position = glm::vec3(1700.0f, 700.0f, 0.0f);
-	menuBox3.width = 100;
+	menuBox3.width = 125;
 	menuBox3.height = 25;
 	//======================== LEVEL I - ENVIRONMENT =====================
 	Object floor, floorSquare;
@@ -89,8 +89,10 @@ int main() {
 	floorSquare.createObject(groundSquare, sizeof(groundSquare) / sizeof(GLfloat), groundSquareIndices, sizeof(groundSquareIndices) / sizeof(int));
 	//======================== LEVEL I - PLAYER ==============================================
 	std::unique_ptr<Mage> mage = std::make_unique<Mage>();
-	//Mage* mage = new Mage;
 	mage->createMage(playerSquare, sizeof(playerSquare) / sizeof(GLfloat), playerSquareIndices, sizeof(playerSquareIndices) / sizeof(int));
+	//======================== LEVEL I - ENEMIES ==================================================
+	std::unique_ptr<Enemy> goblin1 = std::make_unique<Enemy>();
+	goblin1->createEnemy(enemySquare, sizeof(enemySquare) / sizeof(GLfloat), enemySquareIndices, sizeof(enemySquareIndices) / sizeof(int));
 	//======================== LEVEL I - Transformation matrices ==================================
 	glm::mat4 staticFloor = glm::mat4(1.0f); // floor
 	GLuint staticFloorLocation = glGetUniformLocation(shaderProgram, "transform");
@@ -100,12 +102,21 @@ int main() {
 	glm::mat4 playerMovement = glm::mat4(1.0f); // player
 	GLuint playerMovementLocation = glGetUniformLocation(shaderProgram, "transform");
 	mage->magePosition = glm::vec3(-8608.0f, 540.0f, 0.0f);
-	mage->mageVelocity = glm::vec3(2000.0f, 2000.0f, 0.0f);
+	mage->mageVelocity = glm::vec3(500.0f, 2000.0f, 0.0f);
+	mage->health = 100;
+	glm::mat4 goblin1Movement = glm::mat4(1.0f); // enemy
+	GLuint goblin1MovementLocation = glGetUniformLocation(shaderProgram, "transform");
+	goblin1->enemyPosition = glm::vec3(-8000.0f, 540.0f, 0.0f);
+	goblin1->enemyVelocity = glm::vec3(500.0f, 2000.0f, 0.0f);
+	goblin1->enemyQuickAttack = 20;
 	//======================== LEVEL I - Camera ===================================================
 	Camera camera;
 	camera.createCamera();
 	//======================= LEVEL I - Jumping ===================================================
 	bool isJumping = false;
+	//============================ Attack timers for enemies ======================================
+	int goblinLastAttackTime = -1;
+	int ogreLastAttackTime = -1;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -115,6 +126,8 @@ int main() {
 		float currentFrame = glfwGetTime(); //ignore the compiler warning about conversion from dbl to float and the possible loss of data
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		int currentTime = glfwGetTime();
+
 
 		switch (gameState) {
 		case gameMenu:
@@ -167,8 +180,8 @@ int main() {
 			floor.drawObject();
 
 			if (!isJumping && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-				isJumping = true; // Start the jump
-				mage->mageVelocity.y = 2500.0f; // Your initial jump velocity
+				isJumping = true; // start the jump
+				mage->mageVelocity.y = 2500.0f; // initial jump velocity
 			}
 
 			playerMovement = glm::mat4(1.0f);
@@ -188,20 +201,41 @@ int main() {
 				mage->magePosition.x -= mage->mageVelocity.x * deltaTime;
 			}
 			if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-				std::cout << "Position X: " << mage->magePosition.x;
+				std::cout << "Mage health: " << mage->health;
 			}
 			glUniformMatrix4fv(playerMovementLocation, 1, GL_FALSE, glm::value_ptr(playerMovement));
 			mage->drawMage();
 
-			//follow player
+			//goblin here
+			goblin1Movement = glm::mat4(1.0f);
+			goblin1Movement = glm::translate(goblin1Movement, goblin1->enemyPosition);
+			if (mage->magePosition.x + mage->mageWidth >= goblin1->enemyPosition.x - 300.0f) {
+				goblin1->enemyPosition.x = goblin1->enemyPosition.x - goblin1->enemyVelocity.x * deltaTime;
+				if (goblin1->enemyPosition.x - goblin1->enemyWidth <= mage->magePosition.x + mage->mageWidth) {
+					goblin1->enemyVelocity.x = 0;
+					if (goblinLastAttackTime < 0 || currentTime - goblinLastAttackTime >= 1) {  //change 1 to 2 or 3 or X depending on how many seconds u want to pass between attacks
+						goblinLastAttackTime = currentTime;
+						mage->health -= goblin1->enemyQuickAttack;
+					}
+				}
+				else if (goblin1->enemyPosition.x - goblin1->enemyWidth > mage->magePosition.x + mage->mageWidth) {
+					goblin1->enemyVelocity.x = 500;
+				}
+			}
+			glUniformMatrix4fv(goblin1MovementLocation, 1, GL_FALSE, glm::value_ptr(goblin1Movement));
+			goblin1->drawEnemy();
+
+			//camera follows player
 			camera.cameraPosition.x = mage->magePosition.x - 960.0f;
 			if (mage->magePosition.y > 540.0f) {
 				camera.cameraPosition.y = mage->magePosition.y - 540.0f;
 			}
 			//gravity, ACTIVATE IT WHEN NEEDED
-			mage->magePosition.y -= 0.4f;
+			mage->magePosition.y -= 1.0f;
+			goblin1->enemyPosition.y -= 1.0f;
 
 			mage->collisionMage(mage.get(), floor);
+			goblin1->collisionEnemy(goblin1.get(), floor);
 			break;
 
 		case gameOptions:
