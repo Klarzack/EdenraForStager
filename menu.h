@@ -48,3 +48,40 @@ struct Menu {
 		glDeleteBuffers(1, &EBOmenu);
 	}
 };
+
+void rendeMenuElements(GLFWwindow* window, glm::mat4 menuBoxOne, glm::mat4 menuBoxTwo, glm::mat4 menuBoxThree, Menu& menuBox1, Menu& menuBox2, Menu& menuBox3, GLuint
+	menuBox1Location, GLuint menuBox2Location, GLuint menuBox3Location) {
+	menuBoxOne = glm::mat4(1.0f);
+	menuBoxOne = glm::translate(menuBoxOne, menuBox1.position);
+	if (menuBox1.position.x - menuBox1.width < xpos && menuBox1.position.x + menuBox1.width > xpos && menuBox1.position.y - menuBox1.height < ypos
+		&& menuBox1.position.y + menuBox1.height > ypos) {
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+			gameState = gameRunning;
+		}
+	}
+	glUniformMatrix4fv(menuBox1Location, 1, GL_FALSE, glm::value_ptr(menuBoxOne));
+	menuBox1.renderMenu();
+
+	menuBoxTwo = glm::mat4(1.0f);
+	menuBoxTwo = glm::translate(menuBoxTwo, menuBox2.position);
+	if (menuBox2.position.x - menuBox2.width < xpos && menuBox2.position.x + menuBox2.width > xpos && menuBox2.position.y - menuBox2.height < ypos
+		&& menuBox2.position.y + menuBox2.height > ypos) {
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+			gameState = gameOptions;
+		}
+	}
+	glUniformMatrix4fv(menuBox2Location, 1, GL_FALSE, glm::value_ptr(menuBoxTwo));
+	menuBox2.renderMenu();
+
+	menuBoxThree = glm::mat4(1.0f);
+	menuBoxThree = glm::translate(menuBoxThree, menuBox3.position);
+	if (menuBox3.position.x - menuBox3.width < xpos && menuBox3.position.x + menuBox3.width > xpos && menuBox3.position.y - menuBox3.height < ypos
+		&& menuBox3.position.y + menuBox3.height > ypos) {
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+			//more code in here to clean up resources please!!!
+			glfwTerminate();
+		}
+	}
+	glUniformMatrix4fv(menuBox3Location, 1, GL_FALSE, glm::value_ptr(menuBoxThree));
+	menuBox3.renderMenu();
+};

@@ -36,7 +36,7 @@ int main() {
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Use glfwGetPrimaryMonitor() as a 4th parameter of glfwCreateWindow instead of the first NULL to create a full screen mode
-	GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "Luigi's Engine", glfwGetPrimaryMonitor(), nullptr);
+	GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "Luigi's Engine", nullptr, nullptr);
 	if (!window) {
 		std::cerr << "GLFW failed to create a window" << std::endl;
 		glfwTerminate();
@@ -101,22 +101,22 @@ int main() {
 	floor.height = 32;
 	glm::mat4 playerMovement = glm::mat4(1.0f); // player
 	GLuint playerMovementLocation = glGetUniformLocation(shaderProgram, "transform");
-	mage->magePosition = glm::vec3(-8608.0f, 540.0f, 0.0f);
-	mage->mageVelocity = glm::vec3(500.0f, 2000.0f, 0.0f);
+	mage->position = glm::vec3(-8600.0f, 540.0f, 0.0f);
+	mage->velocity = glm::vec3(500.0f, 2000.0f, 0.0f);
 	mage->health = 100;
 	glm::mat4 goblin1Movement = glm::mat4(1.0f); // enemy
 	GLuint goblin1MovementLocation = glGetUniformLocation(shaderProgram, "transform");
-	goblin1->enemyPosition = glm::vec3(-8000.0f, 540.0f, 0.0f);
-	goblin1->enemyVelocity = glm::vec3(500.0f, 2000.0f, 0.0f);
+	goblin1->position = glm::vec3(-8000.0f, 540.0f, 0.0f);
+	goblin1->velocity = glm::vec3(200.0f, 2000.0f, 0.0f);
+	goblin1->patrolStart = glm::vec3(-8000.0f, 0.0f, 0.0f);
+	goblin1->patrolEnd = glm::vec3(-7700.0f, 0.0f, 0.0f);
 	goblin1->enemyQuickAttack = 20;
 	//======================== LEVEL I - Camera ===================================================
 	Camera camera;
 	camera.createCamera();
-	//======================= LEVEL I - Jumping ===================================================
-	bool isJumping = false;
+	//======================= LEVEL I - Jumping & Other ===================================================
 	//============================ Attack timers for enemies ======================================
 	int goblinLastAttackTime = -1;
-	int ogreLastAttackTime = -1;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -126,49 +126,17 @@ int main() {
 		float currentFrame = glfwGetTime(); //ignore the compiler warning about conversion from dbl to float and the possible loss of data
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		int currentTime = glfwGetTime();
+		float currentTime = glfwGetTime();
 
 
 		switch (gameState) {
 		case gameMenu:
 			glUseProgram(shaderProgram);
 			camera.useCamera(shaderProgram);
-
-			menuBoxOne = glm::mat4(1.0f);
-			menuBoxOne = glm::translate(menuBoxOne, menuBox1.position);
-			if (menuBox1.position.x - menuBox1.width < xpos && menuBox1.position.x + menuBox1.width > xpos && menuBox1.position.y - menuBox1.height < ypos
-				&& menuBox1.position.y + menuBox1.height > ypos) {
-				if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-					gameState = gameRunning;
-				}
-			}
-			glUniformMatrix4fv(menuBox1Location, 1, GL_FALSE, glm::value_ptr(menuBoxOne));
-			menuBox1.renderMenu();
-
-			menuBoxTwo = glm::mat4(1.0f);
-			menuBoxTwo = glm::translate(menuBoxTwo, menuBox2.position);
-			if (menuBox2.position.x - menuBox2.width < xpos && menuBox2.position.x + menuBox2.width > xpos && menuBox2.position.y - menuBox2.height < ypos
-				&& menuBox2.position.y + menuBox2.height > ypos) {
-				if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-					gameState = gameOptions;
-				}
-			}
-			glUniformMatrix4fv(menuBox2Location, 1, GL_FALSE, glm::value_ptr(menuBoxTwo));
-			menuBox2.renderMenu();
-
-			menuBoxThree = glm::mat4(1.0f);
-			menuBoxThree = glm::translate(menuBoxThree, menuBox3.position);
-			if (menuBox3.position.x - menuBox3.width < xpos && menuBox3.position.x + menuBox3.width > xpos && menuBox3.position.y - menuBox3.height < ypos
-				&& menuBox3.position.y + menuBox3.height > ypos) {
-				if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-					//more code in here to clean up resources please!!!
-					glfwTerminate();
-				}
-			}
-			glUniformMatrix4fv(menuBox3Location, 1, GL_FALSE, glm::value_ptr(menuBoxThree));
+			rendeMenuElements(window, menuBoxOne, menuBoxTwo, menuBoxThree, menuBox1, menuBox2, menuBox3, menuBox1Location, menuBox2Location, menuBox3Location);
 			menuBox3.renderMenu();
-
 			break;
+
 		case gameRunning:
 			glUseProgram(shaderProgram);
 			camera.updateView();
@@ -179,63 +147,41 @@ int main() {
 			glUniformMatrix4fv(staticFloorLocation, 1, GL_FALSE, glm::value_ptr(staticFloor));
 			floor.drawObject();
 
-			if (!isJumping && glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-				isJumping = true; // start the jump
-				mage->mageVelocity.y = 2500.0f; // initial jump velocity
-			}
-
 			playerMovement = glm::mat4(1.0f);
-			playerMovement = glm::translate(playerMovement, mage->magePosition);
-			mage->magePosition.y += mage->mageVelocity.y * deltaTime;
-			if (mage->magePosition.y > 500.0f) {
-				mage->mageVelocity.y = 0.0f;
-			}
-			if (mage->magePosition.y <= 146.0f && glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE) {
-				mage->mageVelocity.y = 0;
-				isJumping = false;
+			playerMovement = glm::translate(playerMovement, mage->position);
+			if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+				mage->position.y += mage->velocity.y * deltaTime;
 			}
 			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-				mage->magePosition.x += mage->mageVelocity.x * deltaTime;
+				mage->position.x += mage->velocity.x * deltaTime;
 			}
 			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-				mage->magePosition.x -= mage->mageVelocity.x * deltaTime;
+				mage->position.x -= mage->velocity.x * deltaTime;
 			}
 			if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-				std::cout << "Mage health: " << mage->health;
+				std::cout << "Mage pos: " << mage->position.y;
 			}
 			glUniformMatrix4fv(playerMovementLocation, 1, GL_FALSE, glm::value_ptr(playerMovement));
 			mage->drawMage();
 
 			//goblin here
 			goblin1Movement = glm::mat4(1.0f);
-			goblin1Movement = glm::translate(goblin1Movement, goblin1->enemyPosition);
-			if (mage->magePosition.x + mage->mageWidth >= goblin1->enemyPosition.x - 300.0f) {
-				goblin1->enemyPosition.x = goblin1->enemyPosition.x - goblin1->enemyVelocity.x * deltaTime;
-				if (goblin1->enemyPosition.x - goblin1->enemyWidth <= mage->magePosition.x + mage->mageWidth) {
-					goblin1->enemyVelocity.x = 0;
-					if (goblinLastAttackTime < 0 || currentTime - goblinLastAttackTime >= 1) {  //change 1 to 2 or 3 or X depending on how many seconds u want to pass between attacks
-						goblinLastAttackTime = currentTime;
-						mage->health -= goblin1->enemyQuickAttack;
-					}
-				}
-				else if (goblin1->enemyPosition.x - goblin1->enemyWidth > mage->magePosition.x + mage->mageWidth) {
-					goblin1->enemyVelocity.x = 500;
-				}
-			}
+			goblin1Movement = glm::translate(goblin1Movement, goblin1->position);
+			goblin1->idle(deltaTime);
 			glUniformMatrix4fv(goblin1MovementLocation, 1, GL_FALSE, glm::value_ptr(goblin1Movement));
 			goblin1->drawEnemy();
 
 			//camera follows player
-			camera.cameraPosition.x = mage->magePosition.x - 960.0f;
-			if (mage->magePosition.y > 540.0f) {
-				camera.cameraPosition.y = mage->magePosition.y - 540.0f;
+			camera.cameraPosition.x = mage->position.x - 960.0f;
+			if (mage->position.y > 540.0f) {
+				camera.cameraPosition.y = mage->position.y - 540.0f;
 			}
-			//gravity, ACTIVATE IT WHEN NEEDED
-			mage->magePosition.y -= 1.0f;
-			goblin1->enemyPosition.y -= 1.0f;
-
-			mage->collisionMage(mage.get(), floor);
-			goblin1->collisionEnemy(goblin1.get(), floor);
+			//gravity
+			mage->position.y -= 1.0f;
+			goblin1->position.y -= 1.0f;
+			//collision
+			mage->collisionMage(floor);
+			goblin1->collisionEnemy(floor);
 			break;
 
 		case gameOptions:
@@ -247,6 +193,7 @@ int main() {
 	}
 	floor.cleanUp();
 	mage->cleanUpMage();
+	goblin1->cleanUpEnemy();
 	menuBox1.cleanUp();
 	menuBox2.cleanUp();
 	menuBox3.cleanUp();
