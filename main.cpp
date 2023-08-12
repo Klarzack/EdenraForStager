@@ -8,10 +8,8 @@
 #include "utilities.h"
 #include "mouse.h"
 #include "gameState.h"
-#include "deadPass.h"
 #include "camera.h"
-#include "entities.h"
-#include "menu.h"
+#include "grid.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -34,9 +32,8 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
 	// Use glfwGetPrimaryMonitor() as a 4th parameter of glfwCreateWindow instead of the first NULL to create a full screen mode
-	GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "Luigi's Engine", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(screenWidth, screenHeight, "Edenra Engine", glfwGetPrimaryMonitor(), nullptr);
 	if (!window) {
 		std::cerr << "GLFW failed to create a window" << std::endl;
 		glfwTerminate();
@@ -50,153 +47,44 @@ int main() {
 		std::cerr << "GLEW failed to initialize" << std::endl;
 		return 1;
 	}
-
-	//================ Read shaders from file ===========================================
+	//================ Read shaders from file ==========================
 	std::string vShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/vertexShader.vert");
 	const GLchar* vs = vShader.c_str();
 	std::string fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShader.frag");
 	const GLchar* fs = fShader.c_str();
 	GLuint shaderProgram = createShaderProgram(vs, fs);
-	//===================== Delta Time ============================
-	float deltaTime = 0.0f;
-	float lastFrame = 0.0f;
-	//======================== MENU =====================
-	Menu menuBox1, menuBox2, menuBox3;
-	menuBox1.createMenu();
-	menuBox2.createMenu();
-	menuBox3.createMenu();
-	//======================== MENU - Transformation matrices =================
-	glm::mat4 menuBoxOne = glm::mat4(1.0f);
-	GLuint menuBox1Location = glGetUniformLocation(shaderProgram, "transform");
-	menuBox1.position = glm::vec3(1700.0f, 900.0f, 0.0f);
-	menuBox1.width = 125;
-	menuBox1.height = 25;
-
-	glm::mat4 menuBoxTwo = glm::mat4(1.0f);
-	GLuint menuBox2Location = glGetUniformLocation(shaderProgram, "transform");
-	menuBox2.position = glm::vec3(1700.0f, 800.0f, 0.0f);
-	menuBox2.width = 125;
-	menuBox2.height = 25;
-
-	glm::mat4 menuBoxThree = glm::mat4(1.0f);
-	GLuint menuBox3Location = glGetUniformLocation(shaderProgram, "transform");
-	menuBox3.position = glm::vec3(1700.0f, 700.0f, 0.0f);
-	menuBox3.width = 125;
-	menuBox3.height = 25;
-	//======================== LEVEL I - ENVIRONMENT =====================
-	Object floor, floorSquare;
-	floor.createObject(ground, sizeof(ground) / sizeof(GLfloat), groundIndices, sizeof(groundIndices) / sizeof(int));
-	floorSquare.createObject(groundSquare, sizeof(groundSquare) / sizeof(GLfloat), groundSquareIndices, sizeof(groundSquareIndices) / sizeof(int));
-	//======================== LEVEL I - PLAYER ==============================================
-	std::unique_ptr<Mage> mage = std::make_unique<Mage>();
-	mage->createMage(playerSquare, sizeof(playerSquare) / sizeof(GLfloat), playerSquareIndices, sizeof(playerSquareIndices) / sizeof(int));
-	//======================== LEVEL I - ENEMIES ==================================================
-	std::unique_ptr<Enemy> goblin1 = std::make_unique<Enemy>();
-	goblin1->createEnemy(enemySquare, sizeof(enemySquare) / sizeof(GLfloat), enemySquareIndices, sizeof(enemySquareIndices) / sizeof(int));
-	//======================== LEVEL I - Transformation matrices ==================================
-	glm::mat4 staticFloor = glm::mat4(1.0f); // floor
-	GLuint staticFloorLocation = glGetUniformLocation(shaderProgram, "transform");
-	floor.position = glm::vec3(0.0f, 32.0f, 0.0f);
-	floor.width = 9600;
-	floor.height = 32;
-	glm::mat4 playerMovement = glm::mat4(1.0f); // player
-	GLuint playerMovementLocation = glGetUniformLocation(shaderProgram, "transform");
-	mage->position = glm::vec3(-8600.0f, 540.0f, 0.0f);
-	mage->velocity = glm::vec3(500.0f, 2000.0f, 0.0f);
-	mage->health = 100;
-	glm::mat4 goblin1Movement = glm::mat4(1.0f); // enemy
-	GLuint goblin1MovementLocation = glGetUniformLocation(shaderProgram, "transform");
-	goblin1->position = glm::vec3(-8000.0f, 540.0f, 0.0f);
-	goblin1->velocity = glm::vec3(200.0f, 2000.0f, 0.0f);
-	goblin1->patrolStart = glm::vec3(-8000.0f, 0.0f, 0.0f);
-	goblin1->patrolEnd = glm::vec3(-7700.0f, 0.0f, 0.0f);
-	goblin1->enemyQuickAttack = 20;
-	//======================== LEVEL I - Camera ===================================================
+	//===================== Delta Time =================================
+	double deltaTime = 0.0;
+	double lastFrame = 0.0;
+	//======================== Camera ==================================
 	Camera camera;
 	camera.createCamera();
-	//======================= LEVEL I - Jumping & Other ===================================================
-	//============================ Attack timers for enemies ======================================
-	int goblinLastAttackTime = -1;
+	//==================================================================
+	Grid grid;
+	grid.populateGrid(50);
+	grid.createGrid();
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
-		glClearColor(0.8f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.2f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-		float currentFrame = glfwGetTime(); //ignore the compiler warning about conversion from dbl to float and the possible loss of data
+		double currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
-		float currentTime = glfwGetTime();
 
+		glUseProgram(shaderProgram);
+		camera.useCamera(shaderProgram);
 
-		switch (gameState) {
-		case gameMenu:
-			glUseProgram(shaderProgram);
-			camera.useCamera(shaderProgram);
-			rendeMenuElements(window, menuBoxOne, menuBoxTwo, menuBoxThree, menuBox1, menuBox2, menuBox3, menuBox1Location, menuBox2Location, menuBox3Location);
-			menuBox3.renderMenu();
-			break;
+		glm::mat4 gridMatrix = glm::mat4(1.0f);
+		//gridMatrix = glm::translate(gridMatrix, glm::vec3(960.0f, 540.0f, 0.0f));
+		GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
+		grid.drawGrid();
 
-		case gameRunning:
-			glUseProgram(shaderProgram);
-			camera.updateView();
-			camera.useCamera(shaderProgram);
-
-			staticFloor = glm::mat4(1.0f);
-			staticFloor = glm::translate(staticFloor, floor.position);
-			glUniformMatrix4fv(staticFloorLocation, 1, GL_FALSE, glm::value_ptr(staticFloor));
-			floor.drawObject();
-
-			playerMovement = glm::mat4(1.0f);
-			playerMovement = glm::translate(playerMovement, mage->position);
-			if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-				mage->position.y += mage->velocity.y * deltaTime;
-			}
-			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-				mage->position.x += mage->velocity.x * deltaTime;
-			}
-			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-				mage->position.x -= mage->velocity.x * deltaTime;
-			}
-			if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-				std::cout << "Mage pos: " << mage->position.y;
-			}
-			glUniformMatrix4fv(playerMovementLocation, 1, GL_FALSE, glm::value_ptr(playerMovement));
-			mage->drawMage();
-
-			//goblin here
-			goblin1Movement = glm::mat4(1.0f);
-			goblin1Movement = glm::translate(goblin1Movement, goblin1->position);
-			goblin1->idle(deltaTime);
-			glUniformMatrix4fv(goblin1MovementLocation, 1, GL_FALSE, glm::value_ptr(goblin1Movement));
-			goblin1->drawEnemy();
-
-			//camera follows player
-			camera.cameraPosition.x = mage->position.x - 960.0f;
-			if (mage->position.y > 540.0f) {
-				camera.cameraPosition.y = mage->position.y - 540.0f;
-			}
-			//gravity
-			mage->position.y -= 1.0f;
-			goblin1->position.y -= 1.0f;
-			//collision
-			mage->collisionMage(floor);
-			goblin1->collisionEnemy(floor);
-			break;
-
-		case gameOptions:
-			glUseProgram(shaderProgram);
-			camera.useCamera(shaderProgram);
-			break;
-		}
 		glfwSwapBuffers(window);
 	}
-	floor.cleanUp();
-	mage->cleanUpMage();
-	goblin1->cleanUpEnemy();
-	menuBox1.cleanUp();
-	menuBox2.cleanUp();
-	menuBox3.cleanUp();
+
 	glDeleteProgram(shaderProgram);
 
 	glfwTerminate();

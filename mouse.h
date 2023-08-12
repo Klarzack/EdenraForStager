@@ -5,10 +5,6 @@
 extern float xpos;
 extern float ypos;
 
-bool buttonPressed;
-bool buttonReleased;
-bool buttonInRange;
-
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
 	xpos = static_cast<float>(xposIn);

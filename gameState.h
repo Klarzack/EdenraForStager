@@ -3,7 +3,8 @@
 enum GameState {
 	gameMenu,
 	gameRunning,
-	gameOptions
+	gameOptions,
+	gameEditor
 };
 
-GameState gameState = gameMenu;
+GameState gameState = gameEditor;

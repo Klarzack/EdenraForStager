@@ -1,6 +1,0 @@
-- [X] I need to implement a jumping system and a proper system for gravity. As it is right now, it's very basic and not looking good.
--  I need to add a texture to each quad in the game, with a name to identify it
-- Build the game from the ground up: spells, enemies, etc. 
-- Replace all the texture names with proper sprites
-- Create game states for enemies: idle, chasing, attacking if in X range, returning, dying, etc.
-- Determine the logic between enemies game states transitions, etc.

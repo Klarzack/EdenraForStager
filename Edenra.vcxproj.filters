@@ -29,16 +29,10 @@
     <ClInclude Include="gameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="deadPass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="entities.h">
+    <ClInclude Include="grid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
