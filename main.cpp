@@ -10,6 +10,7 @@
 #include "gameState.h"
 #include "camera.h"
 #include "grid.h"
+#include "menu.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -61,8 +62,11 @@ int main() {
 	camera.createCamera();
 	//==================================================================
 	Grid grid;
-	grid.populateGrid(50);
+	grid.populateGrid(10, 10);
 	grid.createGrid();
+	Menu menu;
+	menu.populateMenu();
+	menu.createMenu();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -73,14 +77,31 @@ int main() {
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
-		glUseProgram(shaderProgram);
-		camera.useCamera(shaderProgram);
+		switch (gameState) {
 
-		glm::mat4 gridMatrix = glm::mat4(1.0f);
-		//gridMatrix = glm::translate(gridMatrix, glm::vec3(960.0f, 540.0f, 0.0f));
-		GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
-		glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
-		grid.drawGrid();
+		case gameMenu: {
+			glUseProgram(shaderProgram);
+			camera.useCamera(shaderProgram);
+
+			glm::mat4 menuMatrix = glm::mat4(1.0f);
+			GLuint menuMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
+			glUniformMatrix4fv(menuMatrixLocation, 1, GL_FALSE, glm::value_ptr(menuMatrix));
+			menu.drawMenu();
+			break;
+		}
+
+		case gameEditor: {
+			glUseProgram(shaderProgram);
+			camera.useCamera(shaderProgram);
+
+			glm::mat4 gridMatrix = glm::mat4(1.0f);
+			GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
+			glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
+			grid.drawGrid();
+			break;
+		}
+
+		}
 
 		glfwSwapBuffers(window);
 	}

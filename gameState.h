@@ -7,4 +7,4 @@ enum GameState {
 	gameEditor
 };
 
-GameState gameState = gameEditor;
+GameState gameState = gameMenu;
