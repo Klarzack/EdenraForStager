@@ -42,6 +42,7 @@
   <ItemGroup>
     <None Include="vertexShader.vert" />
     <None Include="fragmentShader.frag" />
+    <None Include="vertexShaderMenu.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Todo.txt" />

@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include "utilities.h"
 #include <vector>
+#include "stb_image.h"
 
 GLfloat gridCell[] {
 	-16.0f, 16.0f, 0.0f,
@@ -63,7 +64,7 @@ struct Grid {
 
 	void drawGrid() {
 		glBindVertexArray(cellVAO);
-		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, 150);
+		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(gridCellInstanceOffsets.size()));
 		glBindVertexArray(0);
 	}
 

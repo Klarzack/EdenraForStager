@@ -48,24 +48,34 @@ int main() {
 		std::cerr << "GLEW failed to initialize" << std::endl;
 		return 1;
 	}
+	//============== enable alpha blending for png images =============
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//================ Read shaders from file ==========================
 	std::string vShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/vertexShader.vert");
 	const GLchar* vs = vShader.c_str();
 	std::string fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShader.frag");
 	const GLchar* fs = fShader.c_str();
 	GLuint shaderProgram = createShaderProgram(vs, fs);
+	vShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/vertexShaderMenu.vert");
+	vs = vShader.c_str();
+	GLuint shaderProgramMenu = createShaderProgram(vs, fs);
 	//===================== Delta Time =================================
 	double deltaTime = 0.0;
 	double lastFrame = 0.0;
 	//======================== Camera ==================================
 	Camera camera;
 	camera.createCamera();
-	//==================================================================
+	//======================= Editor =================================
 	Grid grid;
 	grid.populateGrid(10, 10);
 	grid.createGrid();
+	//======================= Menu =====================================
+	glUseProgram(shaderProgramMenu);
 	Menu menu;
+	menu.loadTexture();
 	menu.populateMenu();
+	menu.activateAtlas(shaderProgramMenu);
 	menu.createMenu();
 
 	while (!glfwWindowShouldClose(window))
@@ -80,13 +90,14 @@ int main() {
 		switch (gameState) {
 
 		case gameMenu: {
-			glUseProgram(shaderProgram);
+			glUseProgram(shaderProgramMenu);
 			camera.useCamera(shaderProgram);
 
 			glm::mat4 menuMatrix = glm::mat4(1.0f);
-			GLuint menuMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
+			GLuint menuMatrixLocation = glGetUniformLocation(shaderProgramMenu, "transform");
 			glUniformMatrix4fv(menuMatrixLocation, 1, GL_FALSE, glm::value_ptr(menuMatrix));
 			menu.drawMenu();
+			menu.interactiveMenu(window);
 			break;
 		}
 
