@@ -18,12 +18,12 @@ GLint menuQuadIndices[]{
 	0, 2, 3
 };
 
-GLuint menuVAO{}, menuVBO{}, menuEBO{}, menuInstanceVBO{}, menuTexture;
+GLuint menuVAO{}, menuVBO{}, menuEBO{}, menuInstanceVBO{}, menuTexture{};
 
 struct InstanceData {
 	glm::vec3 offset{};
 	glm::vec3 scale{};
-	glm::vec2 textureCoords[4];
+	glm::vec2 textureCoords[4]{};
 };
 
 std::vector<InstanceData> menuInstances;
@@ -246,52 +246,6 @@ struct Menu {
 			glBindVertexArray(menuVAO);
 		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		if (hoveringNewGame && !hoveringLoadGame && !hoveringEditor) {
 			menuInstances[6].offset = glm::vec3(760.0f, 565.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
@@ -443,7 +397,6 @@ struct Menu {
 	}
 
 	void activateAtlas(GLuint shaderProgram) {
-		//since we are using only 1 atlas for render the menu, we can activate & bind texture & query the sampler location outside of the render loop
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, menuTexture);
 		glUniform1i(glGetUniformLocation(shaderProgram, "textureAtlas"), 0);

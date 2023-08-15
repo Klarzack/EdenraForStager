@@ -59,6 +59,8 @@ int main() {
 	GLuint shaderProgram = createShaderProgram(vs, fs);
 	vShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/vertexShaderMenu.vert");
 	vs = vShader.c_str();
+	fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShaderMenu.frag");
+	fs = fShader.c_str();
 	GLuint shaderProgramMenu = createShaderProgram(vs, fs);
 	//===================== Delta Time =================================
 	double deltaTime = 0.0;
@@ -66,17 +68,19 @@ int main() {
 	//======================== Camera ==================================
 	Camera camera;
 	camera.createCamera();
-	//======================= Editor =================================
-	Grid grid;
-	grid.populateGrid(10, 10);
-	grid.createGrid();
 	//======================= Menu =====================================
 	glUseProgram(shaderProgramMenu);
 	Menu menu;
 	menu.loadTexture();
 	menu.populateMenu();
-	menu.activateAtlas(shaderProgramMenu);
-	menu.createMenu();
+	menu.createMenu(); 
+	//======================= Editor =================================
+	glUseProgram(shaderProgram);
+	Grid grid;
+	grid.loadTexture();
+	grid.populateGrid(10, 10);
+	grid.activateAtlas(shaderProgram);
+	grid.createGrid();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -96,6 +100,7 @@ int main() {
 			glm::mat4 menuMatrix = glm::mat4(1.0f);
 			GLuint menuMatrixLocation = glGetUniformLocation(shaderProgramMenu, "transform");
 			glUniformMatrix4fv(menuMatrixLocation, 1, GL_FALSE, glm::value_ptr(menuMatrix));
+			menu.activateAtlas(shaderProgramMenu);
 			menu.drawMenu();
 			menu.interactiveMenu(window);
 			break;

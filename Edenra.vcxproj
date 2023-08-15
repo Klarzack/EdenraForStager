@@ -147,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.frag" />
+    <None Include="fragmentShaderMenu.frag" />
     <None Include="vertexShader.vert" />
     <None Include="vertexShaderMenu.vert" />
   </ItemGroup>
