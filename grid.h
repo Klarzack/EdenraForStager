@@ -6,10 +6,10 @@
 #include "stb_image.h"
 
 GLfloat gridCell[] {
-	-16.0f, 16.0f, 0.0f,
-	16.0f, 16.0f, 0.0f,
-	16.0f, -16.0f, 0.0f,
-	-16.0f, -16.0f, 0.0f
+	-32.0f, 32.0f, 0.0f,
+	32.0f, 32.0f, 0.0f,
+	32.0f, -32.0f, 0.0f,
+	-32.0f, -32.0f, 0.0f
 };
 
 int gridCellIndices[] {
@@ -53,8 +53,8 @@ struct Grid {
 
 	void populateGrid(int columns, int rows) {
 		InstanceDataGrid instance;
-		float vertexX = 16.0f;
-		float vertexY = 16.0f;
+		float vertexX = 32.0f;
+		float vertexY = 32.0f;
 		instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
 		instance.textureCoords[0] = glm::vec2(0.0f, 1.0f); // top left
 		instance.textureCoords[1] = glm::vec2(1.0f, 1.0f); // top right
@@ -62,13 +62,13 @@ struct Grid {
 		instance.textureCoords[3] = glm::vec2(0.0f, 0.0f); // bottom left
 		gridCellInstanceOffsets.push_back(instance);
 		for (int i{1}; i <= columns; i++) {
-			vertexX = 16.0f;
+			vertexX = 32.0f;
 			if (i > 1) {
-				vertexY = vertexY + 35.0f;
+				vertexY = vertexY + 64.0f;
 			}
 			for (int j{ 1 }; j <= rows; j++) {
 				if (j < 2) {
-					vertexX = 16.0f;
+					vertexX = 32.0f;
 					instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
 					instance.textureCoords[0] = glm::vec2(0.0f, 1.0f); // top left
 					instance.textureCoords[1] = glm::vec2(1.0f, 1.0f); // top right
@@ -76,7 +76,7 @@ struct Grid {
 					instance.textureCoords[3] = glm::vec2(0.0f, 0.0f); // bottom left
 					gridCellInstanceOffsets.push_back(instance);
 				}
-				vertexX = vertexX + 35.0f;
+				vertexX = vertexX + 64.0f;
 				instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
 				instance.textureCoords[0] = glm::vec2(0.0f, 1.0f); // top left
 				instance.textureCoords[1] = glm::vec2(1.0f, 1.0f); // top right
@@ -85,6 +85,10 @@ struct Grid {
 				gridCellInstanceOffsets.push_back(instance);
 			}
 		}
+	}
+
+	void interactiveGrid() {
+		
 	}
 
 	void createGrid() {

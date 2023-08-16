@@ -43,6 +43,7 @@ int main() {
 
 	glfwMakeContextCurrent(window);
 	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
 
 	if (glewInit() != GLEW_OK) {
 		std::cerr << "GLEW failed to initialize" << std::endl;
@@ -78,14 +79,14 @@ int main() {
 	glUseProgram(shaderProgram);
 	Grid grid;
 	grid.loadTexture();
-	grid.populateGrid(10, 10);
+	grid.populateGrid(10, 1);
 	grid.activateAtlas(shaderProgram);
 	grid.createGrid();
 
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwPollEvents();
-		glClearColor(0.2f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		double currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;

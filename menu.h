@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include "stb_image.h"
+#include "mouse.h"
 
 GLfloat menuQuad[]{
 	-250.0f, 250.0f, 0.0f, 
@@ -42,7 +43,7 @@ struct Menu {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		int width, height, nrChannels;
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load("C:/Users/istra/Edenra/Edenra/images/AtlasMenu.png", &width, &height, &nrChannels, STBI_rgb_alpha);
+		unsigned char* data = stbi_load("C:/Users/istra/Edenra/Edenra/images/AtlasMenu3.png", &width, &height, &nrChannels, STBI_rgb_alpha);
 		if (data)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -123,6 +124,7 @@ struct Menu {
 		bool hoveringOptions = false;
 		bool hoveringQuit = false;
 
+		//NewGame
 		if (xpos > menuInstances[0].offset.x - 175.0f && xpos < menuInstances[0].offset.x + 175.0f && ypos > menuInstances[0].offset.y - 30.0f
 			&& ypos < menuInstances[0].offset.y + 30.0f) {
 			hoveringNewGame = true;
@@ -146,7 +148,7 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
-
+		//Load Game
 		if (xpos > menuInstances[1].offset.x - 175.0f && xpos < menuInstances[1].offset.x + 175.0f && ypos > menuInstances[1].offset.y - 30.0f
 			&& ypos < menuInstances[1].offset.y + 30.0f) {
 			hoveringLoadGame = true;
@@ -170,7 +172,7 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
-
+		//Editor
 		if (xpos > menuInstances[2].offset.x - 175.0f && xpos < menuInstances[2].offset.x + 175.0f && ypos > menuInstances[2].offset.y - 30.0f
 			&& ypos < menuInstances[2].offset.y + 30.0f) {
 			hoveringEditor = true;
@@ -182,12 +184,17 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+			buttonIsInRange = true;
+			if (buttonIsInRange && buttonIsPressed) {
+				//
+			}
+			else if (buttonIsInRange && buttonIsReleased) {
 				gameState = gameEditor;
 			}
 		}
 		else {
 			hoveringEditor = false;
+			buttonIsInRange = false;
 			menuInstances[2].textureCoords[0] = glm::vec2(0.5333333333333333f, 0.321608040201005f);
 			menuInstances[2].textureCoords[1] = glm::vec2(0.715625f, 0.321608040201005f);
 			menuInstances[2].textureCoords[2] = glm::vec2(0.715625f, 0.2839195979899497f);
@@ -197,7 +204,7 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
-
+		//Options
 		if (xpos > menuInstances[3].offset.x - 175.0f && xpos < menuInstances[3].offset.x + 175.0f && ypos > menuInstances[3].offset.y - 30.0f
 			&& ypos < menuInstances[3].offset.y + 30.0f) {
 			hoveringOptions = true;
@@ -221,7 +228,7 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
-
+		//Quit
 		if (xpos > menuInstances[4].offset.x - 175.0f && xpos < menuInstances[4].offset.x + 175.0f && ypos > menuInstances[4].offset.y - 30.0f
 			&& ypos < menuInstances[4].offset.y + 30.0f) {
 			hoveringQuit = true;
@@ -246,7 +253,7 @@ struct Menu {
 			glBindVertexArray(menuVAO);
 		}
 
-		if (hoveringNewGame && !hoveringLoadGame && !hoveringEditor) {
+		if (hoveringNewGame) {
 			menuInstances[6].offset = glm::vec3(760.0f, 565.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0f, 0.321608040201005f);
@@ -263,7 +270,7 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-		} else if (hoveringLoadGame && !hoveringNewGame && !hoveringEditor) {
+		} else if (hoveringLoadGame) {
 			menuInstances[6].offset = glm::vec3(760.0f, 465.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0f, 0.321608040201005f);
@@ -281,7 +288,7 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
-		else if (hoveringEditor && !hoveringLoadGame && !hoveringNewGame) {
+		else if (hoveringEditor) {
 			menuInstances[6].offset = glm::vec3(760.0f, 365.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0f, 0.321608040201005f);
@@ -299,7 +306,7 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData)* menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
-		else if (hoveringOptions && !hoveringLoadGame && !hoveringNewGame && !hoveringEditor) {
+		else if (hoveringOptions) {
 			menuInstances[6].offset = glm::vec3(760.0f, 265.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0f, 0.321608040201005f);
@@ -317,7 +324,7 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
-		else if (hoveringQuit && !hoveringLoadGame && !hoveringNewGame && !hoveringEditor && !hoveringOptions) {
+		else if (hoveringQuit) {
 			menuInstances[6].offset = glm::vec3(760.0f, 165.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0f, 0.321608040201005f);
