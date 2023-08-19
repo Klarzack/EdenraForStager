@@ -11,6 +11,7 @@
 #include "camera.h"
 #include "grid.h"
 #include "menu.h"
+#include "editor.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -63,6 +64,11 @@ int main() {
 	fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShaderMenu.frag");
 	fs = fShader.c_str();
 	GLuint shaderProgramMenu = createShaderProgram(vs, fs);
+	vShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/vertexShaderEditor.vert");
+	vs = vShader.c_str();
+	fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShaderEditor.frag");
+	fs = fShader.c_str();
+	GLuint shaderProgramEditor = createShaderProgram(vs, fs);
 	//===================== Delta Time =================================
 	double deltaTime = 0.0;
 	double lastFrame = 0.0;
@@ -70,18 +76,20 @@ int main() {
 	Camera camera;
 	camera.createCamera();
 	//======================= Menu =====================================
-	glUseProgram(shaderProgramMenu);
 	Menu menu;
 	menu.loadTexture();
 	menu.populateMenu();
 	menu.createMenu(); 
-	//======================= Editor =================================
-	glUseProgram(shaderProgram);
+	//======================= Grid =================================
 	Grid grid;
 	grid.loadTexture();
-	grid.populateGrid(10, 1);
-	grid.activateAtlas(shaderProgram);
+	grid.populateGrid(60, 60);
 	grid.createGrid();
+	//====================== Editor ================================
+	Editor editor;
+	editor.loadTexture();
+	editor.populateEditor();
+	editor.createEditor();
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -108,13 +116,24 @@ int main() {
 		}
 
 		case gameEditor: {
+
 			glUseProgram(shaderProgram);
 			camera.useCamera(shaderProgram);
-
 			glm::mat4 gridMatrix = glm::mat4(1.0f);
 			GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
+			grid.activateAtlas(shaderProgram);
 			grid.drawGrid();
+
+			glUseProgram(shaderProgramEditor);
+			camera.useCamera(shaderProgram);
+			glm::mat4 editorMatrix = glm::mat4(1.0f);
+			editorMatrix = glm::translate(editorMatrix, glm::vec3(1710.0f, 540.0f, 0.0f));
+			GLuint editorMatrixLocation = glGetUniformLocation(shaderProgramEditor, "transform");
+			glUniformMatrix4fv(editorMatrixLocation, 1, GL_FALSE, glm::value_ptr(editorMatrix));
+			editor.activateAtlas(shaderProgramEditor);
+			editor.drawEditor();
+
 			break;
 		}
 

@@ -139,6 +139,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="editor.h" />
     <ClInclude Include="gameState.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="menu.h" />
@@ -147,8 +148,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.frag" />
+    <None Include="fragmentShaderEditor.frag" />
     <None Include="fragmentShaderMenu.frag" />
     <None Include="vertexShader.vert" />
+    <None Include="vertexShaderEditor.vert" />
     <None Include="vertexShaderMenu.vert" />
   </ItemGroup>
   <ItemGroup>

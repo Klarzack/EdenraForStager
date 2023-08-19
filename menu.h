@@ -21,13 +21,13 @@ GLint menuQuadIndices[]{
 
 GLuint menuVAO{}, menuVBO{}, menuEBO{}, menuInstanceVBO{}, menuTexture{};
 
-struct InstanceData {
+struct InstanceDataMenu {
 	glm::vec3 offset{};
 	glm::vec3 scale{};
 	glm::vec2 textureCoords[4]{};
 };
 
-std::vector<InstanceData> menuInstances;
+std::vector<InstanceDataMenu> menuInstances;
 
 extern float xpos;
 extern float ypos;
@@ -57,7 +57,7 @@ struct Menu {
 	}
 
 	void populateMenu() {
-		InstanceData instance;
+		InstanceDataMenu instance;
 		instance.offset = glm::vec3(960.0f, 540.0f, 0.0f);
 		instance.scale = glm::vec3(0.7f, 0.12f, 0.0f);
 		instance.textureCoords[0] = glm::vec2(0.5333333333333333f, 0.2462311557788945f); // top left
@@ -134,7 +134,7 @@ struct Menu {
 			menuInstances[0].textureCoords[3] = glm::vec2(0.715625f, 0.2085427135678392f);
 			//==================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else {
@@ -145,7 +145,7 @@ struct Menu {
 			menuInstances[0].textureCoords[3] = glm::vec2(0.5333333333333333f, 0.2085427135678392f); // bottom left
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		//Load Game
@@ -158,7 +158,7 @@ struct Menu {
 			menuInstances[1].textureCoords[3] = glm::vec2(0.715625f, 0.2462311557788945f);
 			//===================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else {
@@ -169,7 +169,7 @@ struct Menu {
 			menuInstances[1].textureCoords[3] = glm::vec2(0.5333333333333333f, 0.2462311557788945f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		//Editor
@@ -182,13 +182,14 @@ struct Menu {
 			menuInstances[2].textureCoords[3] = glm::vec2(0.715625f, 0.2839195979899497f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 			buttonIsInRange = true;
 			if (buttonIsInRange && buttonIsPressed) {
-				//
+				//menuInstances.at(2).scale = glm::vec3(0.68f, 0.10f, 0.0f);
 			}
 			else if (buttonIsInRange && buttonIsReleased) {
+				menuInstances.at(2).scale = glm::vec3(0.7f, 0.10f, 0.0f);
 				gameState = gameEditor;
 			}
 		}
@@ -201,7 +202,7 @@ struct Menu {
 			menuInstances[2].textureCoords[3] = glm::vec2(0.5333333333333333f, 0.2839195979899497f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		//Options
@@ -214,7 +215,7 @@ struct Menu {
 			menuInstances[3].textureCoords[3] = glm::vec2(0.715625f, 0.1708542713567839f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else {
@@ -225,7 +226,7 @@ struct Menu {
 			menuInstances[3].textureCoords[3] = glm::vec2(0.5333333333333333f, 0.1708542713567839f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		//Quit
@@ -238,7 +239,7 @@ struct Menu {
 			menuInstances[4].textureCoords[3] = glm::vec2(0.715625f, 0.1331658291457286f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData)* menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu)* menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else {
@@ -249,7 +250,7 @@ struct Menu {
 			menuInstances[4].textureCoords[3] = glm::vec2(0.5333333333333333f, 0.1331658291457286f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData)* menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu)* menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 
@@ -268,7 +269,7 @@ struct Menu {
 			menuInstances[7].textureCoords[3] = glm::vec2(0.2666666666666667f, 0.0f);
 			//==================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		} else if (hoveringLoadGame) {
 			menuInstances[6].offset = glm::vec3(760.0f, 465.0f, 0.0f);
@@ -285,7 +286,7 @@ struct Menu {
 			menuInstances[7].textureCoords[3] = glm::vec2(0.2666666666666667f, 0.0f);
 			//===================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else if (hoveringEditor) {
@@ -303,7 +304,7 @@ struct Menu {
 			menuInstances[7].textureCoords[3] = glm::vec2(0.2666666666666667f, 0.0f);
 			//===================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData)* menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu)* menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else if (hoveringOptions) {
@@ -321,7 +322,7 @@ struct Menu {
 			menuInstances[7].textureCoords[3] = glm::vec2(0.2666666666666667f, 0.0f);
 			//===================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else if (hoveringQuit) {
@@ -339,7 +340,7 @@ struct Menu {
 			menuInstances[7].textureCoords[3] = glm::vec2(0.2666666666666667f, 0.0f);
 			//===================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData) * menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 		else if (!hoveringLoadGame && !hoveringNewGame && !hoveringEditor && !hoveringOptions && !hoveringQuit) {
@@ -358,7 +359,7 @@ struct Menu {
 			menuInstances[7].textureCoords[3] = glm::vec2(0.2666666666666667f, 0.0f);
 			//==============================================================================================
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceData)* menuInstances.size(), menuInstances.data());
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu)* menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		}
 	}
@@ -369,18 +370,18 @@ struct Menu {
 		interpretData(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0, 0);
 		createBufferObjects(GL_ELEMENT_ARRAY_BUFFER, 1, menuEBO, sizeof(menuQuadIndices), menuQuadIndices, GL_STATIC_DRAW);
 
-		createBufferObjects(GL_ARRAY_BUFFER, 1, menuInstanceVBO, sizeof(InstanceData) * menuInstances.size(), menuInstances.data(), GL_STATIC_DRAW);
-		interpretData(1, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)0, 1);
+		createBufferObjects(GL_ARRAY_BUFFER, 1, menuInstanceVBO, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data(), GL_STATIC_DRAW);
+		interpretData(1, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceDataMenu), (void*)0, 1);
 		glVertexAttribDivisor(1, 1);
-		interpretData(2, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(sizeof(glm::vec3)), 2);
+		interpretData(2, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceDataMenu), (void*)(sizeof(glm::vec3)), 2);
 		glVertexAttribDivisor(2, 1);
-		interpretData(3, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(2 * sizeof(glm::vec3)), 3);
+		interpretData(3, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceDataMenu), (void*)(2 * sizeof(glm::vec3)), 3);
 		glVertexAttribDivisor(3, 1);
-		interpretData(4, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)), 4);
+		interpretData(4, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceDataMenu), (void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)), 4);
 		glVertexAttribDivisor(4, 1);
-		interpretData(5, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(2 * sizeof(glm::vec3) + 2 * sizeof(glm::vec2)), 5);
+		interpretData(5, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceDataMenu), (void*)(2 * sizeof(glm::vec3) + 2 * sizeof(glm::vec2)), 5);
 		glVertexAttribDivisor(5, 1);
-		interpretData(6, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceData), (void*)(2 * sizeof(glm::vec3) + 3 * sizeof(glm::vec2)), 6);
+		interpretData(6, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceDataMenu), (void*)(2 * sizeof(glm::vec3) + 3 * sizeof(glm::vec2)), 6);
 		glVertexAttribDivisor(6, 1);
 
 		unbindObjects(menuVAO);
@@ -406,6 +407,6 @@ struct Menu {
 	void activateAtlas(GLuint shaderProgram) {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, menuTexture);
-		glUniform1i(glGetUniformLocation(shaderProgram, "textureAtlas"), 0);
+		glUniform1i(glGetUniformLocation(shaderProgram, "textureAtlasMenu"), 0);
 	}
 };

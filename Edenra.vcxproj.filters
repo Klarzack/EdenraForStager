@@ -38,12 +38,17 @@
     <ClInclude Include="menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vert" />
     <None Include="fragmentShaderMenu.frag" />
     <None Include="vertexShaderMenu.vert" />
     <None Include="fragmentShader.frag" />
+    <None Include="fragmentShaderEditor.frag" />
+    <None Include="vertexShaderEditor.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Todo.txt" />
