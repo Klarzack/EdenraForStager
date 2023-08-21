@@ -142,6 +142,7 @@
     <ClInclude Include="editor.h" />
     <ClInclude Include="gameState.h" />
     <ClInclude Include="grid.h" />
+    <ClInclude Include="keyboard.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="mouse.h" />
     <ClInclude Include="utilities.h" />

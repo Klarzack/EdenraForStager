@@ -6,35 +6,31 @@
 #include <vector>
 #include "stb_image.h"
 #include "mouse.h"
+#include "keyboard.h"
 
-GLfloat editorQuad[]{
-	-210.0f, 540.0f, 0.0f, 0.1008403361344538f, 0.0f,
-	210.0f, 540.0f, 0.0f, 0.3361344537815126f, 0.0f,
-	210.0f, -540.0f, 0.0f, 0.3361344537815126f, 0.8925619834710744f,
-	-210.0f, -540.0f, 0.0f, 0.1008403361344538f, 0.8925619834710744f
+struct EditorVertices {
+	glm::vec3 position[4];
+	glm::vec2 texture[4];
 };
 
-GLint editorQuadIndices[]{
-	0, 1, 2,
-	0, 2, 3
-};
-
-GLfloat editorUserInput[]{
-	-50.0f, 100.0f, 0.0f, 0.0f, 0.0f,
-	50.0f, 100.0f, 0.0f, 1.0f, 0.0f,
-	50.0f, -100.0f, 0.0f, 1.0f, 1.0f,
-	-50.0f, -100.0f, 0.0f, 0.0f, 1.0f
-};
-
-GLint editorUserInputIndices[]{
-	4, 5, 6,
-	4, 6, 7
+struct EditorIndices {
+	int indices[6];
 };
 
 GLuint editorVAO{}, editorVBO{}, editorEBO{}, editorTexture{};
 
-std::vector<float>verticesEditor{};
-std::vector<int>indicesEditor{};
+std::vector<EditorVertices>verticesEditor{};
+std::vector<EditorIndices>indicesEditor{};
+std::vector<GLfloat>flattenedVertices{};
+std::vector<GLint>flattenedIndices{};
+
+extern float xpos;
+extern float ypos;
+
+bool q1textured = false;
+bool q2textured = false;
+bool q3textured = false;
+
 
 struct Editor {
 
@@ -61,90 +57,203 @@ struct Editor {
 	}
 
 	void populateEditor() {
-		//Editor Menu
-		float v1{ editorQuad[0] }, v2{ editorQuad[1] }, v3{ editorQuad[2] }, v4{ editorQuad[3] }, v5{ editorQuad[4] },
-			v6{ editorQuad[5] }, v7{ editorQuad[6] }, v8{ editorQuad[7] }, v9{ editorQuad[8] }, v10{ editorQuad[9] },
-			v11{ editorQuad[10] }, v12{ editorQuad[11] }, v13{ editorQuad[12] }, v14{ editorQuad[13] }, v15{ editorQuad[14] },
-			v16{ editorQuad[15] }, v17{ editorQuad[16] }, v18{ editorQuad[17] }, v19{ editorQuad[18] }, v20{ editorQuad[19] };
-		int i1{ editorQuadIndices[0] }, i2{ editorQuadIndices[1] }, i3{ editorQuadIndices[2] }, i4{ editorQuadIndices[3] }, i5{ editorQuadIndices[4] },
-			i6{ editorQuadIndices[5] };
-
-		verticesEditor.push_back(v1);
-		verticesEditor.push_back(v2);
-		verticesEditor.push_back(v3);
-		verticesEditor.push_back(v4);
-		verticesEditor.push_back(v5);
-		verticesEditor.push_back(v6);
-		verticesEditor.push_back(v7);
-		verticesEditor.push_back(v8);
-		verticesEditor.push_back(v9);
-		verticesEditor.push_back(v10);
-		verticesEditor.push_back(v11);
-		verticesEditor.push_back(v12);
-		verticesEditor.push_back(v13);
-		verticesEditor.push_back(v14);
-		verticesEditor.push_back(v15);
-		verticesEditor.push_back(v16);
-		verticesEditor.push_back(v17);
-		verticesEditor.push_back(v18);
-		verticesEditor.push_back(v19);
-		verticesEditor.push_back(v20);
-
-		indicesEditor.push_back(i1);
-		indicesEditor.push_back(i2);
-		indicesEditor.push_back(i3);
-		indicesEditor.push_back(i4);
-		indicesEditor.push_back(i5);
-		indicesEditor.push_back(i6);
-
-		//text menu
-		float v21{ editorUserInput[0] }, v22{ editorUserInput[1] }, v23{ editorUserInput[2] }, v24{ editorUserInput[3] }, v25{ editorUserInput[4] },
-			v26{ editorUserInput[5] }, v27{ editorUserInput[6] }, v28{ editorUserInput[7] }, v29{ editorUserInput[8] }, v30{ editorUserInput[9] },
-			v31{ editorUserInput[10] }, v32{ editorUserInput[11] }, v33{ editorUserInput[12] }, v34{ editorUserInput[13] }, v35{ editorUserInput[14] },
-			v36{ editorUserInput[15] }, v37{ editorUserInput[16] }, v38{ editorUserInput[17] }, v39{ editorUserInput[18] }, v40{ editorUserInput[19] };
-		int i7{ editorUserInputIndices[0] }, i8{ editorUserInputIndices[1] }, i9{ editorUserInputIndices[2] }, i10{ editorUserInputIndices[3] }, i11{ editorUserInputIndices[4] },
-			i12{ editorUserInputIndices[5] };
-
-		verticesEditor.push_back(v21);
-		verticesEditor.push_back(v22);
-		verticesEditor.push_back(v23);
-		verticesEditor.push_back(v24);
-		verticesEditor.push_back(v25);
-		verticesEditor.push_back(v26);
-		verticesEditor.push_back(v27);
-		verticesEditor.push_back(v28);
-		verticesEditor.push_back(v29);
-		verticesEditor.push_back(v30);
-		verticesEditor.push_back(v31);
-		verticesEditor.push_back(v32);
-		verticesEditor.push_back(v33);
-		verticesEditor.push_back(v34);
-		verticesEditor.push_back(v35);
-		verticesEditor.push_back(v36);
-		verticesEditor.push_back(v37);
-		verticesEditor.push_back(v38);
-		verticesEditor.push_back(v39);
-		verticesEditor.push_back(v40);
-
-		indicesEditor.push_back(i7);
-		indicesEditor.push_back(i8);
-		indicesEditor.push_back(i9);
-		indicesEditor.push_back(i10);
-		indicesEditor.push_back(i11);
-		indicesEditor.push_back(i12);
+		//Editor UI   (0)
+		EditorVertices vertex;
+		vertex.position[0] = glm::vec3(1500.0f, 1080.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1920.0f, 1080.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1920.0f, 0.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1500.0f, 0.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.0983606557377049f, 0.0f); //bottom left
+		vertex.texture[1] = glm::vec2(0.3278688524590164f, 0.0f); // bottom right
+		vertex.texture[2] = glm::vec2(0.3278688524590164f, 0.7912087912087912f); //top left
+		vertex.texture[3] = glm::vec2(0.0983606557377049f, 0.7912087912087912f); //top right
+		verticesEditor.push_back(vertex);
+		//Text input 1	(1)
+		vertex.position[0] = glm::vec3(1700.0f, 986.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1722.0f, 986.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1722.0f, 955.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1700.0f, 955.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.8852459016393443f, 0.3736263736263736f);
+		vertex.texture[1] = glm::vec2(0.9289617486338798f, 0.3736263736263736f);
+		vertex.texture[2] = glm::vec2(0.9289617486338798f, 0.4322344322344322f);
+		vertex.texture[3] = glm::vec2(0.8852459016393443f, 0.4322344322344322f);
+		verticesEditor.push_back(vertex);
+		//Text input 2 (2)
+		vertex.position[0] = glm::vec3(1724.0f, 986.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1746.0f, 986.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1746.0f, 955.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1724.0f, 955.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.8852459016393443f, 0.3736263736263736f);
+		vertex.texture[1] = glm::vec2(0.9289617486338798f, 0.3736263736263736f);
+		vertex.texture[2] = glm::vec2(0.9289617486338798f, 0.4322344322344322f);
+		vertex.texture[3] = glm::vec2(0.8852459016393443f, 0.4322344322344322f);
+		verticesEditor.push_back(vertex);
+		//Text input 3	(3)
+		vertex.position[0] = glm::vec3(1748.0f, 986.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1770.0f, 986.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1770.0f, 955.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1748.0f, 955.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.8852459016393443f, 0.3736263736263736f);
+		vertex.texture[1] = glm::vec2(0.9289617486338798f, 0.3736263736263736f);
+		vertex.texture[2] = glm::vec2(0.9289617486338798f, 0.4322344322344322f);
+		vertex.texture[3] = glm::vec2(0.8852459016393443f, 0.4322344322344322f);
+		verticesEditor.push_back(vertex);
+		//Text input 4	(4)
+		vertex.position[0] = glm::vec3(1772.0f, 986.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1794.0f, 986.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1794.0f, 955.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1772.0f, 955.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.8852459016393443f, 0.3736263736263736f);
+		vertex.texture[1] = glm::vec2(0.9289617486338798f, 0.3736263736263736f);
+		vertex.texture[2] = glm::vec2(0.9289617486338798f, 0.4322344322344322f);
+		vertex.texture[3] = glm::vec2(0.8852459016393443f, 0.4322344322344322f);
+		verticesEditor.push_back(vertex);
+		//Text input 5 (5)
+		vertex.position[0] = glm::vec3(1796.0f, 986.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1818.0f, 986.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1818.0f, 955.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1796.0f, 955.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.8852459016393443f, 0.3736263736263736f);
+		vertex.texture[1] = glm::vec2(0.9289617486338798f, 0.3736263736263736f);
+		vertex.texture[2] = glm::vec2(0.9289617486338798f, 0.4322344322344322f);
+		vertex.texture[3] = glm::vec2(0.8852459016393443f, 0.4322344322344322f);
+		verticesEditor.push_back(vertex);
+		//Text input Container 6 (6)
+		vertex.position[0] = glm::vec3(1690.0f, 988.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1828.0f, 988.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1828.0f, 957.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1690.0f, 957.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.0f, 0.8864468864468864f);
+		vertex.texture[1] = glm::vec2(0.3770491803278689f, 0.8864468864468864f);
+		vertex.texture[2] = glm::vec2(0.3770491803278689f, 1.0f);
+		vertex.texture[3] = glm::vec2(0.0f, 1.0f);
+		verticesEditor.push_back(vertex);
+		//PUSH THEM ALL TO THE VECTOR - FLATTENING VERTICES
+		for (auto& vertex : verticesEditor) {
+			for (int i = 0; i < 4; i++) {
+				flattenedVertices.push_back(vertex.position[i].x);
+				flattenedVertices.push_back(vertex.position[i].y);
+				flattenedVertices.push_back(vertex.position[i].z);
+				flattenedVertices.push_back(vertex.texture[i].x);
+				flattenedVertices.push_back(vertex.texture[i].y);
+			}
+		}
+		EditorIndices index;
+		//Editor UI
+		index.indices[0] = 0; index.indices[1] = 1; index.indices[2] = 2;
+		index.indices[3] = 0; index.indices[4] = 2; index.indices[5] = 3;
+		indicesEditor.push_back(index);
+		//Text Input 1
+		index.indices[0] = 4; index.indices[1] = 5; index.indices[2] = 6;
+		index.indices[3] = 4; index.indices[4] = 6; index.indices[5] = 7;
+		indicesEditor.push_back(index);
+		//Text Input 2
+		index.indices[0] = 8; index.indices[1] = 9; index.indices[2] = 10;
+		index.indices[3] = 8; index.indices[4] = 10; index.indices[5] = 11;
+		indicesEditor.push_back(index);
+		//Text Input 3
+		index.indices[0] = 12; index.indices[1] = 13; index.indices[2] = 14;
+		index.indices[3] = 12; index.indices[4] = 14; index.indices[5] = 15;
+		indicesEditor.push_back(index);
+		//Text Input 4
+		index.indices[0] = 16; index.indices[1] = 17; index.indices[2] = 18;
+		index.indices[3] = 16; index.indices[4] = 18; index.indices[5] = 19;
+		indicesEditor.push_back(index);
+		//Text Input 5
+		index.indices[0] = 20; index.indices[1] = 21; index.indices[2] = 22;
+		index.indices[3] = 20; index.indices[4] = 22; index.indices[5] = 23;
+		indicesEditor.push_back(index);
+		//Text Input Container 6
+		index.indices[0] = 24; index.indices[1] = 25; index.indices[2] = 26;
+		index.indices[3] = 24; index.indices[4] = 26; index.indices[5] = 27;
+		indicesEditor.push_back(index);
+		//PUSH THEM ALL TO THE VECTOR - FLATTENING INDICES
+		for (auto& index : indicesEditor) {
+			for (int i = 0; i < 6; i++) {
+				flattenedIndices.push_back(index.indices[i]);
+			}
+		}
 	}	
 	
+	void interactiveEditor(GLFWwindow* window) {
+		if (xpos > 1700 && xpos < 1818 && ypos > 955 && ypos < 986) {
+			if (keyPressed) {
+				//verticesEditor.at(1).texture[0];
+				flattenedVertices.at(23) = 0.5573770491803279;
+				flattenedVertices.at(24) = 0.0f;
+				//verticesEditor.at(1).texture[1];
+				flattenedVertices.at(28) = 0.5655737704918033f;
+				flattenedVertices.at(29) = 0.0f;
+				//verticesEditor.at(1).texture[2];
+				flattenedVertices.at(33) = 0.5655737704918033f;
+				flattenedVertices.at(34) = 0.021978021978022f;
+				//verticesEditor.at(1).texture[3];
+				flattenedVertices.at(38) = 0.5573770491803279f;
+				flattenedVertices.at(39) = 0.021978021978022f;
+				//====================================================================================
+				glBindBuffer(GL_ARRAY_BUFFER, editorVBO);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * flattenedVertices.size(), flattenedVertices.data());
+				glBindVertexArray(editorVAO);
+			}
+			else if (keyReleased) {
+				q1textured = true;
+			}
+			if (keyPressed && q1textured) {
+				//verticesEditor.at(1).texture[0];
+				flattenedVertices.at(43) = 0.5573770491803279;
+				flattenedVertices.at(44) = 0.0f;
+				//verticesEditor.at(1).texture[1];
+				flattenedVertices.at(48) = 0.5655737704918033f;
+				flattenedVertices.at(49) = 0.0f;
+				//verticesEditor.at(1).texture[2];
+				flattenedVertices.at(53) = 0.5655737704918033f;
+				flattenedVertices.at(54) = 0.021978021978022f;
+				//verticesEditor.at(1).texture[3];
+				flattenedVertices.at(58) = 0.5573770491803279f;
+				flattenedVertices.at(59) = 0.021978021978022f;
+				//====================================================================================
+				glBindBuffer(GL_ARRAY_BUFFER, editorVBO);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * flattenedVertices.size(), flattenedVertices.data());
+				glBindVertexArray(editorVAO);
+			}
+			else if (keyReleased && q1textured) {
+				q2textured = true;
+			}
+			if (keyPressed && q2textured) {
+				//verticesEditor.at(1).texture[0];
+				flattenedVertices.at(63) = 0.5573770491803279;
+				flattenedVertices.at(64) = 0.0f;
+				//verticesEditor.at(1).texture[1];
+				flattenedVertices.at(68) = 0.5655737704918033f;
+				flattenedVertices.at(69) = 0.0f;
+				//verticesEditor.at(1).texture[2];
+				flattenedVertices.at(73) = 0.5655737704918033f;
+				flattenedVertices.at(74) = 0.021978021978022f;
+				//verticesEditor.at(1).texture[3];
+				flattenedVertices.at(78) = 0.5573770491803279f;
+				flattenedVertices.at(79) = 0.021978021978022f;
+				//====================================================================================
+				glBindBuffer(GL_ARRAY_BUFFER, editorVBO);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat) * flattenedVertices.size(), flattenedVertices.data());
+				glBindVertexArray(editorVAO);
+			}
+			else if (keyReleased && q2textured) {
+				q3textured = true;
+			}
+		}
+	}
+
 	void createEditor() {
 		createVertexArrays(1, editorVAO);
-		createBufferObjects(GL_ARRAY_BUFFER, 1, editorVBO, 5 * verticesEditor.size() * sizeof(verticesEditor[0]), verticesEditor.data(), GL_STATIC_DRAW);
+		createBufferObjects(GL_ARRAY_BUFFER, 1, editorVBO, flattenedVertices.size() * sizeof(GLfloat), flattenedVertices.data(), GL_STATIC_DRAW);
 		interpretData(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0, 0);
 		interpretData(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)), 1);
-		createBufferObjects(GL_ELEMENT_ARRAY_BUFFER, 1, editorEBO, indicesEditor.size() * sizeof(int), indicesEditor.data(), GL_STATIC_DRAW);
+		createBufferObjects(GL_ELEMENT_ARRAY_BUFFER, 1, editorEBO, flattenedIndices.size() * sizeof(GLint), flattenedIndices.data(), GL_STATIC_DRAW);
 	}
 
 	void drawEditor() {
 		glBindVertexArray(editorVAO);
-		glDrawElements(GL_TRIANGLES, indicesEditor.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(flattenedIndices.size()), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 

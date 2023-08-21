@@ -12,6 +12,7 @@
 #include "grid.h"
 #include "menu.h"
 #include "editor.h"
+#include "keyboard.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -45,6 +46,7 @@ int main() {
 	glfwMakeContextCurrent(window);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glfwSetKeyCallback(window, key_callback);
 
 	if (glewInit() != GLEW_OK) {
 		std::cerr << "GLEW failed to initialize" << std::endl;
@@ -83,7 +85,7 @@ int main() {
 	//======================= Grid =================================
 	Grid grid;
 	grid.loadTexture();
-	grid.populateGrid(60, 60);
+	grid.populateGrid(0, 1);
 	grid.createGrid();
 	//====================== Editor ================================
 	Editor editor;
@@ -128,11 +130,11 @@ int main() {
 			glUseProgram(shaderProgramEditor);
 			camera.useCamera(shaderProgram);
 			glm::mat4 editorMatrix = glm::mat4(1.0f);
-			editorMatrix = glm::translate(editorMatrix, glm::vec3(1710.0f, 540.0f, 0.0f));
 			GLuint editorMatrixLocation = glGetUniformLocation(shaderProgramEditor, "transform");
 			glUniformMatrix4fv(editorMatrixLocation, 1, GL_FALSE, glm::value_ptr(editorMatrix));
 			editor.activateAtlas(shaderProgramEditor);
 			editor.drawEditor();
+			editor.interactiveEditor(window);
 
 			break;
 		}
