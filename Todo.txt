@@ -1,9 +1,4 @@
-Handling text input
+TODO LIST
 
-I do not want to go by the general convention when handling text input and use a library. My text input consists of numbers only, from 0 to 9.
-This means that all I need to do is find a way to render those based on user input in OpenGL.
-This is my plan for doing it:
-
-1. define a quad where text input will be active
-2. if user clicks on the quad, the quad will become active.
-3. if user types a number, a number will be drawn inside the quad (that means, we create another quad on the fly where the specific number will be applied as texture)
+[DONE] The Menu UI behaves IDENTICAL to that of Sacred Underworld
+I need to finish the Editor (I have to be able to click and see the line at the bottom where I can write the numbers in, etc.)

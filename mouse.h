@@ -1,13 +1,10 @@
 #pragma once
 
 #include <GLFW/glfw3.h>
+#include "gameState.h"
 
 extern float xpos;
 extern float ypos;
-
-/*
-When u hover, it's brighter, when u click, it's another color, and when you release, it's back to its hover state
-*/
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
@@ -19,23 +16,41 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 // Global variable to keep track of whether an action should be triggered
 bool buttonIsPressed = false;
 bool buttonIsReleased = false;
-bool buttonIsInRange = false;
-bool mouseClicksEnabled = true;
+bool buttonIsInRangeNewGame = false;
+bool buttonIsInRangeLoadGame = false;
+bool buttonIsInRangeEditor = false;
+bool buttonIsInRangeOptions = false;
+bool buttonIsInRangeQuit = false;
+bool buttonIsInRangeGridSizeX = false;
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRange && mouseClicksEnabled) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeNewGame) {
 		buttonIsPressed = true;
 		buttonIsReleased = false;
 	}
-	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE && buttonIsInRange && mouseClicksEnabled) {
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeLoadGame) {
+		buttonIsPressed = true;
+		buttonIsReleased = false;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeEditor) {
+		buttonIsPressed = true;
+		buttonIsReleased = false;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeOptions) {
+		buttonIsPressed = true;
+		buttonIsReleased = false;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeQuit) {
+		buttonIsPressed = true;
+		buttonIsReleased = false;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeGridSizeX) {
+		buttonIsPressed = true;
+		buttonIsReleased = false;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
 		buttonIsReleased = true;
 		buttonIsPressed = false;
-	}
-	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !buttonIsInRange) {
-		mouseClicksEnabled = false;
-	}
-	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRange) {
-		mouseClicksEnabled = true;
 	}
 }

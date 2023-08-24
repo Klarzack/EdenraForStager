@@ -38,7 +38,7 @@ struct Grid {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		int width, height, nrChannels;
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load("C:/Users/istra/Edenra/Edenra/images/Bricks.png", &width, &height, &nrChannels, STBI_rgb_alpha);
+		unsigned char* data = stbi_load("C:/Users/istra/Edenra/Edenra/images/StonePlatform.png", &width, &height, &nrChannels, STBI_rgb_alpha);
 		if (data)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -46,7 +46,7 @@ struct Grid {
 		}
 		else
 		{
-			std::cout << "Failed to load tile.png" << std::endl;
+			std::cout << "Failed to load texture for the grid" << std::endl;
 		}
 		stbi_image_free(data);
 	}

@@ -85,7 +85,7 @@ int main() {
 	//======================= Grid =================================
 	Grid grid;
 	grid.loadTexture();
-	grid.populateGrid(0, 1);
+	grid.populateGrid(20, 21);
 	grid.createGrid();
 	//====================== Editor ================================
 	Editor editor;
