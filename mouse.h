@@ -22,6 +22,7 @@ bool buttonIsInRangeEditor = false;
 bool buttonIsInRangeOptions = false;
 bool buttonIsInRangeQuit = false;
 bool buttonIsInRangeGridSizeX = false;
+bool buttonIsInRangeGridSizeY = false;
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
@@ -46,6 +47,10 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 		buttonIsReleased = false;
 	}
 	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeGridSizeX) {
+		buttonIsPressed = true;
+		buttonIsReleased = false;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && buttonIsInRangeGridSizeY) {
 		buttonIsPressed = true;
 		buttonIsReleased = false;
 	}
