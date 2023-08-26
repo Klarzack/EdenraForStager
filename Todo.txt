@@ -2,3 +2,9 @@ TODO LIST
 
 [DONE] The Menu UI behaves IDENTICAL to that of Sacred Underworld
 I need to finish the Editor (I have to be able to click and see the line at the bottom where I can write the numbers in, etc.)
+
+IMPORTANT!!!!!!!!!!!!! ONCE GENERATING THE GRID WITH THE GENERATE BUTTON WORKS, REVIEW CODE FOR PERFORMANCE, DO PEFORMANCE REFACTORING AND ALL THAT STUFF
+
+AAAAAAND MAKE SURE THERE ARE NO MEMORY LEAKS!!!!!!!! MAKE SURE YOU RELEASE MEMORY ACCORDINGLY!!!!!!!!!!!!!!!!!!!
+
+PROBLEM: MENU UI GETS BUGGED OUT AFTER RETURNING FROM THE EDITOR TOT HE MENU

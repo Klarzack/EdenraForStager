@@ -85,7 +85,7 @@ int main() {
 	//======================= Grid =================================
 	Grid grid;
 	grid.loadTexture();
-	grid.populateGrid(20, 21);
+	grid.populateGrid(gridCellY, gridCellX);
 	grid.createGrid();
 	//====================== Editor ================================
 	Editor editor;
@@ -125,6 +125,12 @@ int main() {
 			GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
 			grid.activateAtlas(shaderProgram);
+			if (shouldUpdateGrid) {
+				grid.deleteGrid();
+				grid.populateGrid(gridCellY, gridCellX);
+				grid.createGrid();
+				shouldUpdateGrid = false;
+			}
 			grid.drawGrid();
 
 			glUseProgram(shaderProgramEditor);
@@ -135,10 +141,11 @@ int main() {
 			editor.activateAtlas(shaderProgramEditor);
 			editor.drawEditor();
 			editor.interactiveEditor(window);
+			editor.assignValuesGrid();
 
 			break;
 		}
-
+		
 		}
 
 		glfwSwapBuffers(window);

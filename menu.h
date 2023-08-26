@@ -134,6 +134,11 @@ struct Menu {
 	}
 
 	void interactiveMenu(GLFWwindow* window) {
+		
+		std::cout << std::boolalpha;
+		std::cout << "Button is in range of editor: " << buttonIsInRangeEditor << std::endl;
+		std::cout << "Button is pressed: " << buttonIsPressed << std::endl;
+		std::cout << "Button is released: " << buttonIsReleased << std::endl;
 
 		bool hoveringNewGame = false;
 		bool hoveringLoadGame = false;

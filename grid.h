@@ -4,6 +4,7 @@
 #include "utilities.h"
 #include <vector>
 #include "stb_image.h"
+#include "glm/glm.hpp"
 
 GLfloat gridCell[] {
 	-32.0f, 32.0f, 0.0f,
@@ -38,7 +39,7 @@ struct Grid {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		int width, height, nrChannels;
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* data = stbi_load("C:/Users/istra/Edenra/Edenra/images/StonePlatform.png", &width, &height, &nrChannels, STBI_rgb_alpha);
+		unsigned char* data = stbi_load("C:/Users/istra/Edenra/Edenra/images/AtlasEditor.png", &width, &height, &nrChannels, STBI_rgb_alpha);
 		if (data)
 		{
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -50,16 +51,16 @@ struct Grid {
 		}
 		stbi_image_free(data);
 	}
-
+	//FIRST PARAMETER IS Y, SECOND PARAMETER IS X, MEANING COLUMNS IS Y, ROWS IS X HERE
 	void populateGrid(int columns, int rows) {
 		InstanceDataGrid instance;
 		float vertexX = 32.0f;
 		float vertexY = 32.0f;
 		instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
-		instance.textureCoords[0] = glm::vec2(0.0f, 1.0f); // top left
-		instance.textureCoords[1] = glm::vec2(1.0f, 1.0f); // top right
-		instance.textureCoords[2] = glm::vec2(1.0f, 0.0f); // bottom right
-		instance.textureCoords[3] = glm::vec2(0.0f, 0.0f); // bottom left
+		instance.textureCoords[0] = glm::vec2(1.0f, 0.970703125f); // top left
+		instance.textureCoords[1] = glm::vec2(0.048828125f, 0.970703125f); // top right
+		instance.textureCoords[2] = glm::vec2(0.048828125f, 0.962890625f); // bottom right
+		instance.textureCoords[3] = glm::vec2(0.041015625f, 0.962890625f); // bottom left
 		gridCellInstanceOffsets.push_back(instance);
 		for (int i{1}; i <= columns; i++) {
 			vertexX = 32.0f;
@@ -70,18 +71,18 @@ struct Grid {
 				if (j < 2) {
 					vertexX = 32.0f;
 					instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
-					instance.textureCoords[0] = glm::vec2(0.0f, 1.0f); // top left
-					instance.textureCoords[1] = glm::vec2(1.0f, 1.0f); // top right
-					instance.textureCoords[2] = glm::vec2(1.0f, 0.0f); // bottom right
-					instance.textureCoords[3] = glm::vec2(0.0f, 0.0f); // bottom left
+					instance.textureCoords[0] = glm::vec2(0.041015625f, 0.970703125f); // top left
+					instance.textureCoords[1] = glm::vec2(0.048828125f, 0.970703125f); // top right
+					instance.textureCoords[2] = glm::vec2(0.048828125f, 0.962890625f); // bottom right
+					instance.textureCoords[3] = glm::vec2(0.041015625f, 0.962890625f); // bottom left
 					gridCellInstanceOffsets.push_back(instance);
 				}
 				vertexX = vertexX + 64.0f;
 				instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
-				instance.textureCoords[0] = glm::vec2(0.0f, 1.0f); // top left
-				instance.textureCoords[1] = glm::vec2(1.0f, 1.0f); // top right
-				instance.textureCoords[2] = glm::vec2(1.0f, 0.0f); // bottom right
-				instance.textureCoords[3] = glm::vec2(0.0f, 0.0f); // bottom left
+				instance.textureCoords[0] = glm::vec2(0.041015625f, 0.970703125f); // top left  Y is inverted, so if it starts at height 60, it's 2048 - 60
+				instance.textureCoords[1] = glm::vec2(0.048828125f, 0.970703125f); // top right same here
+				instance.textureCoords[2] = glm::vec2(0.048828125f, 0.962890625f); // bottom right same here
+				instance.textureCoords[3] = glm::vec2(0.041015625f, 0.962890625f); // bottom left same here
 				gridCellInstanceOffsets.push_back(instance);
 			}
 		}
@@ -122,6 +123,7 @@ struct Grid {
 	}
 
 	void deleteGrid() {
+		gridCellInstanceOffsets.clear();
 		glDeleteVertexArrays(1, &cellVAO);
 		glDeleteBuffers(1, &cellVBO);
 		glDeleteBuffers(1, &cellEBO);
