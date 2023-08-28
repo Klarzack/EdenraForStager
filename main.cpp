@@ -13,6 +13,7 @@
 #include "menu.h"
 #include "editor.h"
 #include "keyboard.h"
+#include <cmath>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -71,6 +72,10 @@ int main() {
 	fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShaderEditor.frag");
 	fs = fShader.c_str();
 	GLuint shaderProgramEditor = createShaderProgram(vs, fs);
+	//================================= Round up =========================
+	auto roundUp = [](double value) -> int {
+	return (value - static_cast<int>(value) >= 0.5) ? static_cast<int>(ceil(value)) : static_cast<int>(value);
+};
 	//===================== Delta Time =================================
 	double deltaTime = 0.0;
 	double lastFrame = 0.0;
@@ -82,16 +87,16 @@ int main() {
 	menu.loadTexture();
 	menu.populateMenu();
 	menu.createMenu(); 
+	bool isMenuAtlasActivated = false;
 	//======================= Grid =================================
 	Grid grid;
 	grid.loadTexture();
-	grid.populateGrid(gridCellY, gridCellX);
-	grid.createGrid();
 	//====================== Editor ================================
 	Editor editor;
 	editor.loadTexture();
 	editor.populateEditor();
 	editor.createEditor();
+	bool isEditorAtlasActivated = false;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -111,7 +116,10 @@ int main() {
 			glm::mat4 menuMatrix = glm::mat4(1.0f);
 			GLuint menuMatrixLocation = glGetUniformLocation(shaderProgramMenu, "transform");
 			glUniformMatrix4fv(menuMatrixLocation, 1, GL_FALSE, glm::value_ptr(menuMatrix));
-			menu.activateAtlas(shaderProgramMenu);
+			if (!isMenuAtlasActivated) {
+				menu.activateAtlas(shaderProgramMenu);
+				isMenuAtlasActivated = true;
+			}
 			menu.drawMenu();
 			menu.interactiveMenu(window);
 			break;
@@ -124,10 +132,10 @@ int main() {
 			glm::mat4 gridMatrix = glm::mat4(1.0f);
 			GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
-			grid.activateAtlas(shaderProgram);
 			if (shouldUpdateGrid) {
 				grid.deleteGrid();
-				grid.populateGrid(gridCellY, gridCellX);
+				grid.activateAtlas(shaderProgram);
+				grid.populateGrid(roundUp(gridCellY / 64.0), roundUp(gridCellX / 64.0));
 				grid.createGrid();
 				shouldUpdateGrid = false;
 			}
@@ -138,7 +146,10 @@ int main() {
 			glm::mat4 editorMatrix = glm::mat4(1.0f);
 			GLuint editorMatrixLocation = glGetUniformLocation(shaderProgramEditor, "transform");
 			glUniformMatrix4fv(editorMatrixLocation, 1, GL_FALSE, glm::value_ptr(editorMatrix));
-			editor.activateAtlas(shaderProgramEditor);
+			if (!isEditorAtlasActivated) {
+				editor.activateAtlas(shaderProgramEditor);
+				isEditorAtlasActivated = true;
+			}
 			editor.drawEditor();
 			editor.interactiveEditor(window);
 			editor.assignValuesGrid();

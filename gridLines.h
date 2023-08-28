@@ -18,7 +18,7 @@ struct InstanceDataGridLines {
 std::vector<InstanceDataGridLines> gridLinesInstanceOffsets {
 };
 
-GLuint cellVAO{}, cellVBO{}, cellEBO{}, cellInstanceVBO{}, gridTexture{};
+GLuint cellVAO{}, cellVBO{}, cellEBO{}, cellInstanceVBO{};
 
 struct GridLines {
 	void populateGrid(int columns, int rows) {

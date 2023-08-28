@@ -52,6 +52,7 @@ bool activateTextInputGridY = false;
 float qEmpty = 0.99951171875f;
 bool wasPressedLastFrame = false;
 
+//this takes care of the numbers in the grid editor
 std::vector<int> qXnumbers{};
 std::vector<int> qYnumbers{};
 int qx1{}, qx2{}, qx3{}, qx4{}, qx5{};
@@ -345,52 +346,30 @@ struct Editor {
 	}
 
 	void interactiveEditor(GLFWwindow* window) {
+		//if in range of Grid Size X
 		if (xpos > 1667.0f && xpos < 1884.0f && ypos > 956.0f && ypos < 990.0f) {
-			buttonIsInRangeGridSizeX = true;
-		}
-		else {
-			buttonIsInRangeGridSizeX = false;
-		}
-		if (xpos > 1667.0f && xpos < 1884.0f && ypos > 902.0f && ypos < 936.0f) {
-			buttonIsInRangeGridSizeY = true;
-		}
-		else {
-			buttonIsInRangeGridSizeY = false;
-		}
-		if (buttonIsInRangeGridSizeX) {
 			if (buttonIsPressed) {
 				activateTextInputGridX = true;
 			}
 		}
-		if (!buttonIsInRangeGridSizeX) {
+		else {
 			if (buttonIsPressed) {
 				activateTextInputGridX = false;
 			}
 		}
-		if (buttonIsInRangeGridSizeY) {
+		//if in range of Grid Size Y
+		if (xpos > 1667.0f && xpos < 1884.0f && ypos > 902.0f && ypos < 936.0f) {
 			if (buttonIsPressed) {
 				activateTextInputGridY = true;
 			}
 		}
-		if (!buttonIsInRangeGridSizeY) {
+		else {
 			if (buttonIsPressed) {
 				activateTextInputGridY = false;
 			}
 		}
-		if (xpos > 1851.0f && xpos < 1882.0f && ypos > 1017.0f && ypos < 1050.0f) {
-			buttonIsInRangeCellSizeArrow = true; // this should be buttonIsInRangeBackToMenu or something like that but this is fine too as it used to be something diff
-		}
-		else {
-			buttonIsInRangeCellSizeArrow = false;
-		}
 		//generate button
 		if (xpos > 1591.0f && xpos < 1828.0f && ypos > 782.0f && ypos < 824.0f) {
-			buttonIsInRangeGenerateButton = true;
-		}
-		else {
-			buttonIsInRangeGenerateButton = false;
-		} 
-		if (buttonIsInRangeGenerateButton) {
 			flattenedVertices[323] = 0.0478515625f;   //top left
 			flattenedVertices[324] = 0.00244140625f;
 			flattenedVertices[328] = 0.0703125f;    //top right
@@ -411,7 +390,7 @@ struct Editor {
 			flattenedVertices[339] = 0.99951171875f;
 		}
 		//Back to Menu button
-		if (buttonIsInRangeCellSizeArrow) {
+		if (xpos > 1851.0f && xpos < 1882.0f && ypos > 1017.0f && ypos < 1050.0f) {
 			flattenedVertices[303] = 0.0419921875f;   //top left
 			flattenedVertices[304] = 0.00341796875f;
 			flattenedVertices[308] = 0.04541015625f;    //top right
@@ -421,6 +400,7 @@ struct Editor {
 			flattenedVertices[318] = 0.0419921875f;   //bottom left
 			flattenedVertices[319] = 0.0068359375f;
 			if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+				//ask the user if he wants to save the map or not
 				gameState = gameMenu;
 			}
 		}
@@ -2339,7 +2319,7 @@ struct Editor {
 	}
 
 	void assignValuesGrid() {
-		if (buttonIsInRangeGenerateButton) {
+		if (xpos > 1591.0f && xpos < 1828.0f && ypos > 782.0f && ypos < 824.0f) {
 		if (buttonIsPressed && !wasPressedLastFrame) {
 			qXnumbers.clear();
 			qYnumbers.clear();
@@ -2796,8 +2776,6 @@ struct Editor {
 			}
 			shouldUpdateGrid = true;
 			wasPressedLastFrame = true;
-
-			std::cout << gridCellY << std::endl;
 		}
 		else if (!buttonIsPressed) {
 			wasPressedLastFrame = false;

@@ -51,8 +51,9 @@ struct Grid {
 		}
 		stbi_image_free(data);
 	}
-	//FIRST PARAMETER IS Y, SECOND PARAMETER IS X, MEANING COLUMNS IS Y, ROWS IS X HERE
+
 	void populateGrid(int columns, int rows) {
+		//FIRST PARAMETER IS Y, SECOND PARAMETER IS X, MEANING COLUMNS IS Y, ROWS IS X HERE
 		InstanceDataGrid instance;
 		float vertexX = 32.0f;
 		float vertexY = 32.0f;

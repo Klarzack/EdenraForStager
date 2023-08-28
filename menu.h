@@ -33,6 +33,13 @@ std::vector<InstanceDataMenu> menuInstances;
 extern float xpos;
 extern float ypos;
 
+bool hoveringNewGame = false;
+bool hoveringLoadGame = false;
+bool hoveringEditor = false;
+bool hoveringOptions = false;
+bool hoveringQuit = false;
+bool initialPressChecked = false;
+
 struct Menu {
 
 	void loadTexture() {
@@ -134,17 +141,27 @@ struct Menu {
 	}
 
 	void interactiveMenu(GLFWwindow* window) {
-		
-		std::cout << std::boolalpha;
-		std::cout << "Button is in range of editor: " << buttonIsInRangeEditor << std::endl;
-		std::cout << "Button is pressed: " << buttonIsPressed << std::endl;
-		std::cout << "Button is released: " << buttonIsReleased << std::endl;
-
-		bool hoveringNewGame = false;
-		bool hoveringLoadGame = false;
-		bool hoveringEditor = false;
-		bool hoveringOptions = false;
-		bool hoveringQuit = false;
+		if (buttonIsPressed && !initialPressChecked) {
+			if (hoveringEditor) {
+				gameState = gameEditor;
+			}
+			else if (hoveringNewGame) {
+				std::cout << "You clicked New Game";
+			}
+			else if (hoveringLoadGame) {
+				std::cout << "You clicked Load Game";
+			}
+			else if (hoveringOptions) {
+				std::cout << "You clicked Options";
+			}
+			else if (hoveringQuit) {
+				std::cout << "You clicked Quit";
+			}
+			initialPressChecked = true;
+		}
+		if (buttonIsReleased) {
+			initialPressChecked = false;
+		}
 		
 		//NewGame
 		if (xpos > menuInstances[0].offset.x - 175.0f && xpos < menuInstances[0].offset.x + 175.0f && ypos > menuInstances[0].offset.y - 30.0f
@@ -158,14 +175,12 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			buttonIsInRangeNewGame = true;
 			if (buttonIsPressed) {
-				//do something here
+				//
 			}
 		}
 		else {
 			hoveringNewGame = false;
-			buttonIsInRangeNewGame = false;
 			menuInstances[0].textureCoords[0] = glm::vec2(0.09375f, 1.0f); // top left
 			menuInstances[0].textureCoords[1] = glm::vec2(0.2646484375f, 1.0f); // top right
 			menuInstances[0].textureCoords[2] = glm::vec2(0.2646484375f, 0.970703125f); // bottom right
@@ -187,14 +202,12 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			buttonIsInRangeLoadGame = true;
 			if (buttonIsPressed) {
 				//do something here
 			}
 		}
 		else {
 			hoveringLoadGame = false;
-			buttonIsInRangeLoadGame = false;
 			menuInstances[1].textureCoords[0] = glm::vec2(0.09375f, 0.82421875f);
 			menuInstances[1].textureCoords[1] = glm::vec2(0.2646484375f, 0.82421875f);
 			menuInstances[1].textureCoords[2] = glm::vec2(0.2646484375f, 0.794921875f);
@@ -216,14 +229,9 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			buttonIsInRangeEditor = true;
-			if (buttonIsPressed) {
-				gameState = gameEditor;
-			}
 		}
 		else {
 			hoveringEditor = false;
-			buttonIsInRangeEditor = false;
 			menuInstances[2].textureCoords[0] = glm::vec2(0.2646484375f, 0.912109375f);
 			menuInstances[2].textureCoords[1] = glm::vec2(0.435546875f, 0.912109375f);
 			menuInstances[2].textureCoords[2] = glm::vec2(0.435546875f, 0.8828125f);
@@ -245,14 +253,12 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			buttonIsInRangeOptions = true;
 			if (buttonIsPressed) {
 				//do something here
 			}
 		}
 		else {
 			hoveringOptions = false;
-			buttonIsInRangeOptions = false;
 			menuInstances[3].textureCoords[0] = glm::vec2(0.09375f, 0.912109375f);
 			menuInstances[3].textureCoords[1] = glm::vec2(0.2646484375f, 0.912109375f);
 			menuInstances[3].textureCoords[2] = glm::vec2(0.2646484375f, 0.8828125f);
@@ -274,14 +280,12 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu)* menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			buttonIsInRangeQuit = true;
 			if (buttonIsPressed) {
 				//do something here
 			}
 		}
 		else {
 			hoveringQuit = false;
-			buttonIsInRangeQuit = false;
 			menuInstances[4].textureCoords[0] = glm::vec2(0.2646484375f, 1.0f);
 			menuInstances[4].textureCoords[1] = glm::vec2(0.435546875f, 1.0f);
 			menuInstances[4].textureCoords[2] = glm::vec2(0.435546875f, 0.970703125f);
