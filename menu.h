@@ -106,8 +106,8 @@ struct Menu {
 		instance.textureCoords[2] = glm::vec2(0.435546875f, 0.970703125f);
 		instance.textureCoords[3] = glm::vec2(0.2646484375f, 0.970703125f);
 		menuInstances.push_back(instance);
-		instance.offset = glm::vec3(150.0f, 540.0f, 0.0f);
-		instance.scale = glm::vec3(0.6f, 2.16f, 0.0f);
+		instance.offset = glm::vec3(-1150.0f, -1540.0f, 0.0f);
+		instance.scale = glm::vec3(0.1f, 0.1f, 0.0f);
 		//background left
 		instance.textureCoords[0] = glm::vec2(0.04443359375f, 1.0f);
 		instance.textureCoords[1] = glm::vec2(0.0888671875f, 1.0f);
@@ -130,13 +130,13 @@ struct Menu {
 		instance.textureCoords[2] = glm::vec2(0.03857421875f, 0.802734375f);
 		instance.textureCoords[3] = glm::vec2(0.0f, 0.802734375f);
 		menuInstances.push_back(instance);
-		instance.offset = glm::vec3(1770.0f, 540.0f, 0.0f);
-		instance.scale = glm::vec3(0.6f, 2.16f, 0.0f);
+		instance.offset = glm::vec3(980.0f, 540.0f, 0.0f);
+		instance.scale = glm::vec3(2.0f, 1.0f, 0.0f);
 		//background right
-		instance.textureCoords[0] = glm::vec2(0.0f, 1.0f);
-		instance.textureCoords[1] = glm::vec2(0.0439453125f, 1.0f);
-		instance.textureCoords[2] = glm::vec2(0.0439453125f, 0.853515625f);
-		instance.textureCoords[3] = glm::vec2(0.0f, 0.853515625f);
+		instance.textureCoords[0] = glm::vec2(0.439453125f, 1.0f);
+		instance.textureCoords[1] = glm::vec2(0.99365234375f, 1.0f);
+		instance.textureCoords[2] = glm::vec2(0.99365234375f, 0.736328125f);
+		instance.textureCoords[3] = glm::vec2(0.439453125f, 0.736328125f);
 		menuInstances.push_back(instance);
 	}
 
@@ -297,13 +297,13 @@ struct Menu {
 		}
 		//this prevents mouse from clicking outside or on any other buttons. Some weird stuff going on here, old code, lazy to refactor
 		if (hoveringNewGame) {
-			menuInstances[6].offset = glm::vec3(738.0f, 566.0f, 0.0f);
+			menuInstances[6].offset = glm::vec3(776.0f, 530.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0390625f, 0.853515625f);
 			menuInstances[6].textureCoords[1] = glm::vec2(0.076171875f, 0.853515625f);
 			menuInstances[6].textureCoords[2] = glm::vec2(0.076171875f, 0.8037109375f);
 			menuInstances[6].textureCoords[3] = glm::vec2(0.0390625f, 0.8037109375f);
-			menuInstances[7].offset = glm::vec3(1180.0f, 562.5f, 0.0f);
+			menuInstances[7].offset = glm::vec3(1123.0f, 530.5f, 0.0f);
 			menuInstances[7].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[7].textureCoords[0] = glm::vec2(0.0f, 0.85302734375f);
 			menuInstances[7].textureCoords[1] = glm::vec2(0.03857421875f, 0.85302734375f);
@@ -314,13 +314,13 @@ struct Menu {
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
 		} else if (hoveringLoadGame) {
-			menuInstances[6].offset = glm::vec3(738.0f, 466.0f, 0.0f);
+			menuInstances[6].offset = glm::vec3(776.0f, 430.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0390625f, 0.853515625f);
 			menuInstances[6].textureCoords[1] = glm::vec2(0.076171875f, 0.853515625f);
 			menuInstances[6].textureCoords[2] = glm::vec2(0.076171875f, 0.8037109375f);
 			menuInstances[6].textureCoords[3] = glm::vec2(0.0390625f, 0.8037109375f);
-			menuInstances[7].offset = glm::vec3(1180.0f, 462.0f, 0.0f);
+			menuInstances[7].offset = glm::vec3(1123.0f, 430.0f, 0.0f);
 			menuInstances[7].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[7].textureCoords[0] = glm::vec2(0.0f, 0.85302734375f);
 			menuInstances[7].textureCoords[1] = glm::vec2(0.03857421875f, 0.85302734375f);
@@ -332,13 +332,13 @@ struct Menu {
 			glBindVertexArray(menuVAO);
 		}
 		else if (hoveringEditor) {
-			menuInstances[6].offset = glm::vec3(738.0f, 366.0f, 0.0f);
+			menuInstances[6].offset = glm::vec3(776.0f, 330.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0390625f, 0.853515625f);
 			menuInstances[6].textureCoords[1] = glm::vec2(0.076171875f, 0.853515625f);
 			menuInstances[6].textureCoords[2] = glm::vec2(0.076171875f, 0.8037109375f);
 			menuInstances[6].textureCoords[3] = glm::vec2(0.0390625f, 0.8037109375f);
-			menuInstances[7].offset = glm::vec3(1180.0f, 362.0f, 0.0f);
+			menuInstances[7].offset = glm::vec3(1123.0f, 330.0f, 0.0f);
 			menuInstances[7].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[7].textureCoords[0] = glm::vec2(0.0f, 0.85302734375f);
 			menuInstances[7].textureCoords[1] = glm::vec2(0.03857421875f, 0.85302734375f);
@@ -350,13 +350,13 @@ struct Menu {
 			glBindVertexArray(menuVAO);
 		}
 		else if (hoveringOptions) {
-			menuInstances[6].offset = glm::vec3(738.0f, 266.0f, 0.0f);
+			menuInstances[6].offset = glm::vec3(776.0f, 230.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0390625f, 0.853515625f);
 			menuInstances[6].textureCoords[1] = glm::vec2(0.076171875f, 0.853515625f);
 			menuInstances[6].textureCoords[2] = glm::vec2(0.076171875f, 0.8037109375f);
 			menuInstances[6].textureCoords[3] = glm::vec2(0.0390625f, 0.8037109375f);
-			menuInstances[7].offset = glm::vec3(1180.0f, 262.0f, 0.0f);
+			menuInstances[7].offset = glm::vec3(1123.0f, 230.0f, 0.0f);
 			menuInstances[7].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[7].textureCoords[0] = glm::vec2(0.0f, 0.85302734375f);
 			menuInstances[7].textureCoords[1] = glm::vec2(0.03857421875f, 0.85302734375f);
@@ -368,13 +368,13 @@ struct Menu {
 			glBindVertexArray(menuVAO);
 		}
 		else if (hoveringQuit) {
-			menuInstances[6].offset = glm::vec3(738.0f, 166.0f, 0.0f);
+			menuInstances[6].offset = glm::vec3(776.0f, 130.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0390625f, 0.853515625f);
 			menuInstances[6].textureCoords[1] = glm::vec2(0.076171875f, 0.853515625f);
 			menuInstances[6].textureCoords[2] = glm::vec2(0.076171875f, 0.8037109375f);
 			menuInstances[6].textureCoords[3] = glm::vec2(0.0390625f, 0.8037109375f);
-			menuInstances[7].offset = glm::vec3(1180.0f, 162.0f, 0.0f);
+			menuInstances[7].offset = glm::vec3(1123.0f, 130.0f, 0.0f);
 			menuInstances[7].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[7].textureCoords[0] = glm::vec2(0.0f, 0.85302734375f);
 			menuInstances[7].textureCoords[1] = glm::vec2(0.03857421875f, 0.85302734375f);
@@ -387,13 +387,13 @@ struct Menu {
 		}
 		else if (!hoveringLoadGame && !hoveringNewGame && !hoveringEditor && !hoveringOptions && !hoveringQuit) {
 			//==============================================================================================
-			menuInstances[6].offset = glm::vec3(760.0f, 2065.0f, 0.0f);
+			menuInstances[6].offset = glm::vec3(776.0f, 2065.0f, 0.0f);
 			menuInstances[6].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[6].textureCoords[0] = glm::vec2(0.0390625f, 0.853515625f);
 			menuInstances[6].textureCoords[1] = glm::vec2(0.076171875f, 0.853515625f);
 			menuInstances[6].textureCoords[2] = glm::vec2(0.076171875f, 0.8037109375f);
 			menuInstances[6].textureCoords[3] = glm::vec2(0.0390625f, 0.8037109375f);
-			menuInstances[7].offset = glm::vec3(1160.0f, 2065.0f, 0.0f);
+			menuInstances[7].offset = glm::vec3(1123.0f, 2065.0f, 0.0f);
 			menuInstances[7].scale = glm::vec3(0.256f, 0.256f, 0.0f);
 			menuInstances[7].textureCoords[0] = glm::vec2(0.0f, 0.85302734375f);
 			menuInstances[7].textureCoords[1] = glm::vec2(0.03857421875f, 0.85302734375f);

@@ -75,7 +75,9 @@ int main() {
 	//================================= Round up =========================
 	auto roundUp = [](double value) -> int {
 	return (value - static_cast<int>(value) >= 0.5) ? static_cast<int>(ceil(value)) : static_cast<int>(value);
-};
+	};
+	//================================ Screen Origin/Center ==============
+	glm::vec3 screenCenter(960.0f, 540.0f, 0.0f);
 	//===================== Delta Time =================================
 	double deltaTime = 0.0;
 	double lastFrame = 0.0;
@@ -129,6 +131,9 @@ int main() {
 
 			glUseProgram(shaderProgram);
 			camera.useCamera(shaderProgram);
+			camera.freeCamera(screenCenter, deltaTime, xpos, ypos);
+			camera.updateView();
+
 			glm::mat4 gridMatrix = glm::mat4(1.0f);
 			GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
@@ -142,7 +147,7 @@ int main() {
 			grid.drawGrid();
 
 			glUseProgram(shaderProgramEditor);
-			camera.useCamera(shaderProgram);
+			camera.useCamera(shaderProgramEditor);
 			glm::mat4 editorMatrix = glm::mat4(1.0f);
 			GLuint editorMatrixLocation = glGetUniformLocation(shaderProgramEditor, "transform");
 			glUniformMatrix4fv(editorMatrixLocation, 1, GL_FALSE, glm::value_ptr(editorMatrix));

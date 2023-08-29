@@ -26,4 +26,21 @@ struct Camera {
 	   GLuint projectionLocation = glGetUniformLocation(shaderProgram, "projection");
 	   glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projection));
    }
+
+   //move camera around
+   void freeCamera(glm::vec3& screenCenter, double deltaTime, float xpos, float ypos) {
+	   if (xpos > screenCenter.x + 958.0f) {
+		   cameraPosition.x += 500.0f * deltaTime;
+	   }
+	   else if (xpos < screenCenter.x - 958.0f) {
+		   cameraPosition.x -= 500.0f * deltaTime;
+	   }
+
+	   if (ypos > screenCenter.y + 538.0f) {
+		   cameraPosition.y += 500.0f * deltaTime;
+	   }
+	   else if (ypos < screenCenter.y - 538.0f) {
+		   cameraPosition.y -= 500.0f * deltaTime;
+	   }
+	}
 };
