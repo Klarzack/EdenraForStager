@@ -14,6 +14,7 @@
 #include "editor.h"
 #include "keyboard.h"
 #include <cmath>
+#include "gridLines.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -72,6 +73,11 @@ int main() {
 	fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShaderEditor.frag");
 	fs = fShader.c_str();
 	GLuint shaderProgramEditor = createShaderProgram(vs, fs);
+	vShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/vertexShaderGridLines.vert");
+	vs = vShader.c_str();
+	fShader = loadShaderSource("C:/Users/istra/Edenra/Edenra/fragmentShaderGridLines.frag");
+	fs = fShader.c_str();
+	GLuint shaderProgramLines = createShaderProgram(vs, fs);
 	//================================= Round up =========================
 	auto roundUp = [](double value) -> int {
 	return (value - static_cast<int>(value) >= 0.5) ? static_cast<int>(ceil(value)) : static_cast<int>(value);
@@ -99,6 +105,9 @@ int main() {
 	editor.populateEditor();
 	editor.createEditor();
 	bool isEditorAtlasActivated = false;
+	//===================== Grid Lines =============================
+	GridLines lines;
+	bool frustumOff = false;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -114,6 +123,10 @@ int main() {
 		case gameMenu: {
 			glUseProgram(shaderProgramMenu);
 			camera.useCamera(shaderProgram);
+			if (camera.cameraPosition.x != 0.0f && camera.cameraPosition.y != 0.0f) {
+				camera.cameraPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+			}
+			camera.updateView();
 
 			glm::mat4 menuMatrix = glm::mat4(1.0f);
 			GLuint menuMatrixLocation = glGetUniformLocation(shaderProgramMenu, "transform");
@@ -133,7 +146,6 @@ int main() {
 			camera.useCamera(shaderProgram);
 			camera.freeCamera(screenCenter, deltaTime, xpos, ypos);
 			camera.updateView();
-
 			glm::mat4 gridMatrix = glm::mat4(1.0f);
 			GLuint gridMatrixLocation = glGetUniformLocation(shaderProgram, "transform");
 			glUniformMatrix4fv(gridMatrixLocation, 1, GL_FALSE, glm::value_ptr(gridMatrix));
@@ -144,11 +156,35 @@ int main() {
 				grid.createGrid();
 				shouldUpdateGrid = false;
 			}
+			if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS) {
+				frustumOff = true;
+			}
+			else if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS) {
+				frustumOff = false;
+			}
+			if (!frustumOff) {
+				camera.activateFrustumCulling();
+			}
 			grid.drawGrid();
+			
+			if (isGridLinesToggled) {
+				glUseProgram(shaderProgramLines);
+				camera.useCamera(shaderProgramLines);
+				glm::mat4 linesMatrix = glm::mat4(1.0f);
+				GLuint linesMatrixLocation = glGetUniformLocation(shaderProgramLines, "transform");
+				glUniformMatrix4fv(linesMatrixLocation, 1, GL_FALSE, glm::value_ptr(linesMatrix));
+				if (shouldUpdateLines) {
+					lines.deleteGridLines();
+					lines.populateGridLines((roundUp(gridCellY / 64.0)) + 1, (roundUp(gridCellX / 64.0)) + 2); // +1 to the first parameter always, +2 to the second. ALWAYS!!!!!!!!!!!!!
+					lines.createGridLines();
+					shouldUpdateLines = false;
+				}
+				lines.drawGridLines();
+			}
 
 			glUseProgram(shaderProgramEditor);
 			camera.useCamera(shaderProgramEditor);
-			glm::mat4 editorMatrix = glm::mat4(1.0f);
+			glm::mat4 editorMatrix = glm::translate(glm::mat4(1.0f), camera.cameraPosition);
 			GLuint editorMatrixLocation = glGetUniformLocation(shaderProgramEditor, "transform");
 			glUniformMatrix4fv(editorMatrixLocation, 1, GL_FALSE, glm::value_ptr(editorMatrix));
 			if (!isEditorAtlasActivated) {

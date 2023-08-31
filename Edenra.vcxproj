@@ -151,9 +151,11 @@
   <ItemGroup>
     <None Include="fragmentShader.frag" />
     <None Include="fragmentShaderEditor.frag" />
+    <None Include="fragmentShaderGridLines.frag" />
     <None Include="fragmentShaderMenu.frag" />
     <None Include="vertexShader.vert" />
     <None Include="vertexShaderEditor.vert" />
+    <None Include="vertexShaderGridLines.vert" />
     <None Include="vertexShaderMenu.vert" />
   </ItemGroup>
   <ItemGroup>

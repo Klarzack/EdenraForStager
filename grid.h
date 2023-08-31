@@ -26,7 +26,16 @@ struct InstanceDataGrid {
 std::vector<InstanceDataGrid> gridCellInstanceOffsets {
 };
 
-GLuint cellVAO{}, cellVBO{}, cellEBO{}, cellInstanceVBO{}, gridTexture{};
+std::vector<InstanceDataGrid> visibleCells{};
+
+//struct Chunk {
+//	std::vector<InstanceDataGrid> cells{};
+//};
+//
+//std::vector<Chunk> chunks{};
+//Chunk chunk;
+
+GLuint cellVAO{}, cellVBO{}, cellEBO{}, cellInstanceVBO{}, visibleCellInstanceVBO{}, gridTexture{};
 
 struct Grid {
 
@@ -89,10 +98,6 @@ struct Grid {
 		}
 	}
 
-	void interactiveGrid() {
-		
-	}
-
 	void createGrid() {
 		createVertexArrays(1, cellVAO);
 		createBufferObjects(GL_ARRAY_BUFFER, 1, cellVBO, sizeof(gridCell), gridCell, GL_STATIC_DRAW);
@@ -119,7 +124,7 @@ struct Grid {
 
 	void drawGrid() {
 		glBindVertexArray(cellVAO);
-		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(gridCellInstanceOffsets.size()));
+		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(visibleCells.size()));
 		glBindVertexArray(0);
 	}
 

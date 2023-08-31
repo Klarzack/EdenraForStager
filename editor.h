@@ -61,6 +61,10 @@ int gridCellX{};
 int gridCellY{};
 
 bool shouldUpdateGrid = false;
+bool shouldUpdateLines = false;
+bool isGridLinesToggled;
+bool initialPressCheckedEditor;
+bool hoveringToggleGridButton = false;
 
 struct Editor {
 
@@ -258,6 +262,16 @@ struct Editor {
 		vertex.texture[2] = glm::vec2(1.0f, 1.0f);//made invisible
 		vertex.texture[3] = glm::vec2(0.99951171875f, 1.0f);//made invisible
 		verticesEditor.push_back(vertex);
+		//Grid Toggle Button
+		vertex.position[0] = glm::vec3(1580.0f, 765.0f, 0.0f);
+		vertex.position[1] = glm::vec3(1850.0f, 765.0f, 0.0f);
+		vertex.position[2] = glm::vec3(1850.0f, 720.0f, 0.0f);
+		vertex.position[3] = glm::vec3(1580.0f, 720.0f, 0.0f);
+		vertex.texture[0] = glm::vec2(0.99951171875f, 0.99951171875f); //made invisible
+		vertex.texture[1] = glm::vec2(1.0f, 0.99951171875f);//made invisible
+		vertex.texture[2] = glm::vec2(1.0f, 1.0f);//made invisible
+		vertex.texture[3] = glm::vec2(0.99951171875f, 1.0f);//made invisible
+		verticesEditor.push_back(vertex);
 		//PUSH THEM ALL TO THE VECTOR - FLATTENING VERTICES
 		for (auto& vertex : verticesEditor) {
 			for (int i = 0; i < 4; i++) {
@@ -337,6 +351,10 @@ struct Editor {
 		index.indices[0] = 64; index.indices[1] = 65; index.indices[2] = 66;
 		index.indices[3] = 64; index.indices[4] = 66; index.indices[5] = 67;
 		indicesEditor.push_back(index);
+		//Grid Toggle Button
+		index.indices[0] = 68; index.indices[1] = 69; index.indices[2] = 70;
+		index.indices[3] = 68; index.indices[4] = 70; index.indices[5] = 71;
+		indicesEditor.push_back(index);
 		//PUSH THEM ALL TO THE VECTOR - FLATTENING INDICES
 		for (auto& index : indicesEditor) {
 			for (int i = 0; i < 6; i++) {
@@ -346,6 +364,19 @@ struct Editor {
 	}
 
 	void interactiveEditor(GLFWwindow* window) {
+		if (buttonIsPressed && !initialPressCheckedEditor) {
+			if (hoveringToggleGridButton && !isGridLinesToggled) {
+				isGridLinesToggled = true;
+				shouldUpdateLines = true;
+			}
+			else if (hoveringToggleGridButton && isGridLinesToggled) {
+				isGridLinesToggled = false;
+			}
+			initialPressCheckedEditor = true;
+		}
+		if (buttonIsReleased) {
+			initialPressCheckedEditor = false;
+		}
 		//if in range of Grid Size X
 		if (xpos > 1667.0f && xpos < 1884.0f && ypos > 956.0f && ypos < 990.0f) {
 			if (buttonIsPressed) {
@@ -388,6 +419,29 @@ struct Editor {
 			flattenedVertices[334] = 1.0f;
 			flattenedVertices[338] = 0.99951171875f;   //bottom left
 			flattenedVertices[339] = 0.99951171875f;
+		}
+		//grid toggle button
+		if (xpos > 1573.0f && xpos < 1846.0f && ypos > 723.0f && ypos < 763.0f) {
+			hoveringToggleGridButton = true;
+			flattenedVertices[343] = 0.0498046875f;   //top left
+			flattenedVertices[344] = 0.0146484375f;
+			flattenedVertices[348] = 0.076171875f;    //top right
+			flattenedVertices[349] = 0.0146484375f;
+			flattenedVertices[353] = 0.076171875f;    //bottom right
+			flattenedVertices[354] = 0.01904296875f;
+			flattenedVertices[358] = 0.0498046875f;   //bottom left
+			flattenedVertices[359] = 0.01904296875f;
+		}
+		else {
+			hoveringToggleGridButton = false;
+			flattenedVertices[343] = 0.99951171875f;   //top left
+			flattenedVertices[344] = 0.99951171875f;
+			flattenedVertices[348] = 1.0f;    //top right
+			flattenedVertices[349] = 0.99951171875f;
+			flattenedVertices[353] = 1.0f;    //bottom right
+			flattenedVertices[354] = 1.0f;
+			flattenedVertices[358] = 0.99951171875f;   //bottom left
+			flattenedVertices[359] = 0.99951171875f;
 		}
 		//Back to Menu button
 		if (xpos > 1851.0f && xpos < 1882.0f && ypos > 1017.0f && ypos < 1050.0f) {
