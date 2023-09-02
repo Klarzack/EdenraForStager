@@ -343,7 +343,7 @@ struct Editor {
 		index.indices[0] = 56; index.indices[1] = 57; index.indices[2] = 58;
 		index.indices[3] = 56; index.indices[4] = 58; index.indices[5] = 59;
 		indicesEditor.push_back(index);
-		//Arrow for cell size
+		//Back to menu button
 		index.indices[0] = 60; index.indices[1] = 61; index.indices[2] = 62;
 		index.indices[3] = 60; index.indices[4] = 62; index.indices[5] = 63;
 		indicesEditor.push_back(index);
@@ -2374,466 +2374,466 @@ struct Editor {
 
 	void assignValuesGrid() {
 		if (xpos > 1591.0f && xpos < 1828.0f && ypos > 782.0f && ypos < 824.0f) {
-		if (buttonIsPressed && !wasPressedLastFrame) {
-			qXnumbers.clear();
-			qYnumbers.clear();
-			gridCellX = 0;
-			gridCellY = 0;
-			//GRID X
-			//First quad number
-			if (flattenedVertices[23] == 0.04833984375f) {
-				qx1 = 1;
-				qXnumbers.push_back(qx1);
+			if (buttonIsPressed && !wasPressedLastFrame) {
+				qXnumbers.clear();
+				qYnumbers.clear();
+				gridCellX = 0;
+				gridCellY = 0;
+				//GRID X
+				//First quad number
+				if (flattenedVertices[23] == 0.04833984375f) {
+					qx1 = 1;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.05224609375f) {
+					qx1 = 2;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.0537109375f) {
+					qx1 = 3;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.0595703125f) {
+					qx1 = 4;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.05810546875f) {
+					qx1 = 5;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.05078125f) {
+					qx1 = 6;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.04931640625f) {
+					qx1 = 7;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.056640625f) {
+					qx1 = 8;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.046875f) {
+					qx1 = 9;
+					qXnumbers.push_back(qx1);
+				}
+				else if (flattenedVertices[23] == 0.05517578125f) {
+					qx1 = 0;
+					qXnumbers.push_back(qx1);
+				}
+				else {
+					//do nothing
+				}
+				//Second quad number
+				if (flattenedVertices[43] == 0.04833984375f) {
+					qx2 = 1;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.05224609375f) {
+					qx2 = 2;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.0537109375f) {
+					qx2 = 3;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.0595703125f) {
+					qx2 = 4;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.05810546875f) {
+					qx2 = 5;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.05078125f) {
+					qx2 = 6;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.04931640625f) {
+					qx2 = 7;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.056640625f) {
+					qx2 = 8;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.046875f) {
+					qx2 = 9;
+					qXnumbers.push_back(qx2);
+				}
+				else if (flattenedVertices[43] == 0.05517578125f) {
+					qx2 = 0;
+					qXnumbers.push_back(qx2);
+				}
+				else {
+					//do nothing
+				}
+				//Third quad number
+				if (flattenedVertices[63] == 0.04833984375f) {
+					qx3 = 1;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.05224609375f) {
+					qx3 = 2;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.0537109375f) {
+					qx3 = 3;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.0595703125f) {
+					qx3 = 4;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.05810546875f) {
+					qx3 = 5;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.05078125f) {
+					qx3 = 6;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.04931640625f) {
+					qx3 = 7;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.056640625f) {
+					qx3 = 8;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.046875f) {
+					qx3 = 9;
+					qXnumbers.push_back(qx3);
+				}
+				else if (flattenedVertices[63] == 0.05517578125f) {
+					qx3 = 0;
+					qXnumbers.push_back(qx3);
+				}
+				else {
+					//do nothing
+				}
+				//Fourth quad number
+				if (flattenedVertices[83] == 0.04833984375f) {
+					qx4 = 1;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.05224609375f) {
+					qx4 = 2;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.0537109375f) {
+					qx4 = 3;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.0595703125f) {
+					qx4 = 4;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.05810546875f) {
+					qx4 = 5;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.05078125f) {
+					qx4 = 6;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.04931640625f) {
+					qx4 = 7;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.056640625f) {
+					qx4 = 8;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.046875f) {
+					qx4 = 9;
+					qXnumbers.push_back(qx4);
+				}
+				else if (flattenedVertices[83] == 0.05517578125f) {
+					qx4 = 0;
+					qXnumbers.push_back(qx4);
+				}
+				else {
+					//do nothing
+				}
+				//Fifth quad number
+				if (flattenedVertices[103] == 0.04833984375f) {
+					qx5 = 1;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.05224609375f) {
+					qx5 = 2;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.0537109375f) {
+					qx5 = 3;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.0595703125f) {
+					qx5 = 4;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.05810546875f) {
+					qx5 = 5;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.05078125f) {
+					qx5 = 6;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.04931640625f) {
+					qx5 = 7;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.056640625f) {
+					qx5 = 8;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.046875f) {
+					qx5 = 9;
+					qXnumbers.push_back(qx5);
+				}
+				else if (flattenedVertices[103] == 0.05517578125f) {
+					qx5 = 0;
+					qXnumbers.push_back(qx5);
+				}
+				else {
+					//do nothing
+				}
+				//GRID Y
+				//First quad number
+				if (flattenedVertices[163] == 0.04833984375f) {
+					qy1 = 1;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.05224609375f) {
+					qy1 = 2;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.0537109375f) {
+					qy1 = 3;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.0595703125f) {
+					qy1 = 4;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.05810546875f) {
+					qy1 = 5;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.05078125f) {
+					qy1 = 6;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.04931640625f) {
+					qy1 = 7;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.056640625f) {
+					qy1 = 8;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.046875f) {
+					qy1 = 9;
+					qYnumbers.push_back(qy1);
+				}
+				else if (flattenedVertices[163] == 0.05517578125f) {
+					qy1 = 0;
+					qYnumbers.push_back(qy1);
+				}
+				else {
+					//do nothing
+				}
+				//Second quad number
+				if (flattenedVertices[183] == 0.04833984375f) {
+					qy2 = 1;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.05224609375f) {
+					qy2 = 2;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.0537109375f) {
+					qy2 = 3;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.0595703125f) {
+					qy2 = 4;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.05810546875f) {
+					qy2 = 5;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.05078125f) {
+					qy2 = 6;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.04931640625f) {
+					qy2 = 7;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.056640625f) {
+					qx2 = 8;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.046875f) {
+					qy2 = 9;
+					qYnumbers.push_back(qy2);
+				}
+				else if (flattenedVertices[183] == 0.05517578125f) {
+					qy2 = 0;
+					qYnumbers.push_back(qy2);
+				}
+				else {
+					//do nothing
+				}
+				//Third quad number
+				if (flattenedVertices[203] == 0.04833984375f) {
+					qy3 = 1;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.05224609375f) {
+					qy3 = 2;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.0537109375f) {
+					qy3 = 3;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.0595703125f) {
+					qy3 = 4;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.05810546875f) {
+					qy3 = 5;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.05078125f) {
+					qy3 = 6;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.04931640625f) {
+					qy3 = 7;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.056640625f) {
+					qy3 = 8;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.046875f) {
+					qy3 = 9;
+					qYnumbers.push_back(qy3);
+				}
+				else if (flattenedVertices[203] == 0.05517578125f) {
+					qy3 = 0;
+					qYnumbers.push_back(qy3);
+				}
+				else {
+					//do nothing
+				}
+				//Fourth quad number
+				if (flattenedVertices[223] == 0.04833984375f) {
+					qy4 = 1;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.05224609375f) {
+					qy4 = 2;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.0537109375f) {
+					qy4 = 3;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.0595703125f) {
+					qy4 = 4;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.05810546875f) {
+					qy4 = 5;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.05078125f) {
+					qy4 = 6;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.04931640625f) {
+					qy4 = 7;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.056640625f) {
+					qy4 = 8;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.046875f) {
+					qy4 = 9;
+					qYnumbers.push_back(qy4);
+				}
+				else if (flattenedVertices[223] == 0.05517578125f) {
+					qy4 = 0;
+					qYnumbers.push_back(qy4);
+				}
+				else {
+					//do nothing
+				}
+				//Fifth quad number
+				if (flattenedVertices[243] == 0.04833984375f) {
+					qy5 = 1;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.05224609375f) {
+					qy5 = 2;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.0537109375f) {
+					qy5 = 3;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.0595703125f) {
+					qy5 = 4;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.05810546875f) {
+					qy5 = 5;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.05078125f) {
+					qy5 = 6;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.04931640625f) {
+					qy5 = 7;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.056640625f) {
+					qy5 = 8;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.046875f) {
+					qy5 = 9;
+					qYnumbers.push_back(qy5);
+				}
+				else if (flattenedVertices[243] == 0.05517578125f) {
+					qy5 = 0;
+					qYnumbers.push_back(qy5);
+				}
+				else {
+					//do nothing
+				}
+				//=========================== COVERT ARRAY TO NUMBER!!! ========================
+				for (int num : qXnumbers) {
+					gridCellX = gridCellX * 10 + num;
+				}
+				for (int num : qYnumbers) {
+					gridCellY = gridCellY * 10 + num;
+				}
+				shouldUpdateGrid = true;
+				wasPressedLastFrame = true;
+			}
+			else if (!buttonIsPressed) {
+				wasPressedLastFrame = false;
 			}
-			else if (flattenedVertices[23] == 0.05224609375f) {
-				qx1 = 2;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.0537109375f) {
-				qx1 = 3;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.0595703125f) {
-				qx1 = 4;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.05810546875f) {
-				qx1 = 5;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.05078125f) {
-				qx1 = 6;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.04931640625f) {
-				qx1 = 7;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.056640625f) {
-				qx1 = 8;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.046875f) {
-				qx1 = 9;
-				qXnumbers.push_back(qx1);
-			}
-			else if (flattenedVertices[23] == 0.05517578125f) {
-				qx1 = 0;
-				qXnumbers.push_back(qx1);
-			}
-			else {
-				//do nothing
-			}
-			//Second quad number
-			if (flattenedVertices[43] == 0.04833984375f) {
-				qx2 = 1;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.05224609375f) {
-				qx2 = 2;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.0537109375f) {
-				qx2 = 3;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.0595703125f) {
-				qx2 = 4;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.05810546875f) {
-				qx2 = 5;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.05078125f) {
-				qx2 = 6;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.04931640625f) {
-				qx2 = 7;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.056640625f) {
-				qx2 = 8;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.046875f) {
-				qx2 = 9;
-				qXnumbers.push_back(qx2);
-			}
-			else if (flattenedVertices[43] == 0.05517578125f) {
-				qx2 = 0;
-				qXnumbers.push_back(qx2);
-			}
-			else {
-				//do nothing
-			}
-			//Third quad number
-			if (flattenedVertices[63] == 0.04833984375f) {
-				qx3 = 1;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.05224609375f) {
-				qx3 = 2;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.0537109375f) {
-				qx3 = 3;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.0595703125f) {
-				qx3 = 4;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.05810546875f) {
-				qx3 = 5;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.05078125f) {
-				qx3 = 6;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.04931640625f) {
-				qx3 = 7;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.056640625f) {
-				qx3 = 8;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.046875f) {
-				qx3 = 9;
-				qXnumbers.push_back(qx3);
-			}
-			else if (flattenedVertices[63] == 0.05517578125f) {
-				qx3 = 0;
-				qXnumbers.push_back(qx3);
-			}
-			else {
-				//do nothing
-			}
-			//Fourth quad number
-			if (flattenedVertices[83] == 0.04833984375f) {
-				qx4 = 1;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.05224609375f) {
-				qx4 = 2;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.0537109375f) {
-				qx4 = 3;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.0595703125f) {
-				qx4 = 4;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.05810546875f) {
-				qx4 = 5;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.05078125f) {
-				qx4 = 6;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.04931640625f) {
-				qx4 = 7;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.056640625f) {
-				qx4 = 8;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.046875f) {
-				qx4 = 9;
-				qXnumbers.push_back(qx4);
-			}
-			else if (flattenedVertices[83] == 0.05517578125f) {
-				qx4 = 0;
-				qXnumbers.push_back(qx4);
-			}
-			else {
-				//do nothing
-			}
-			//Fifth quad number
-			if (flattenedVertices[103] == 0.04833984375f) {
-				qx5 = 1;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.05224609375f) {
-				qx5 = 2;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.0537109375f) {
-				qx5 = 3;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.0595703125f) {
-				qx5 = 4;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.05810546875f) {
-				qx5 = 5;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.05078125f) {
-				qx5 = 6;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.04931640625f) {
-				qx5 = 7;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.056640625f) {
-				qx5 = 8;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.046875f) {
-				qx5 = 9;
-				qXnumbers.push_back(qx5);
-			}
-			else if (flattenedVertices[103] == 0.05517578125f) {
-				qx5 = 0;
-				qXnumbers.push_back(qx5);
-			}
-			else {
-				//do nothing
-			}
-			//GRID Y
-			//First quad number
-			if (flattenedVertices[163] == 0.04833984375f) {
-				qy1 = 1;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.05224609375f) {
-				qy1 = 2;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.0537109375f) {
-				qy1 = 3;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.0595703125f) {
-				qy1 = 4;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.05810546875f) {
-				qy1 = 5;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.05078125f) {
-				qy1 = 6;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.04931640625f) {
-				qy1 = 7;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.056640625f) {
-				qy1 = 8;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.046875f) {
-				qy1 = 9;
-				qYnumbers.push_back(qy1);
-			}
-			else if (flattenedVertices[163] == 0.05517578125f) {
-				qy1 = 0;
-				qYnumbers.push_back(qy1);
-			}
-			else {
-				//do nothing
-			}
-			//Second quad number
-			if (flattenedVertices[183] == 0.04833984375f) {
-				qy2 = 1;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.05224609375f) {
-				qy2 = 2;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.0537109375f) {
-				qy2 = 3;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.0595703125f) {
-				qy2 = 4;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.05810546875f) {
-				qy2 = 5;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.05078125f) {
-				qy2 = 6;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.04931640625f) {
-				qy2 = 7;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.056640625f) {
-				qx2 = 8;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.046875f) {
-				qy2 = 9;
-				qYnumbers.push_back(qy2);
-			}
-			else if (flattenedVertices[183] == 0.05517578125f) {
-				qy2 = 0;
-				qYnumbers.push_back(qy2);
-			}
-			else {
-				//do nothing
-			}
-			//Third quad number
-			if (flattenedVertices[203] == 0.04833984375f) {
-				qy3 = 1;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.05224609375f) {
-				qy3 = 2;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.0537109375f) {
-				qy3 = 3;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.0595703125f) {
-				qy3 = 4;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.05810546875f) {
-				qy3 = 5;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.05078125f) {
-				qy3 = 6;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.04931640625f) {
-				qy3 = 7;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.056640625f) {
-				qy3 = 8;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.046875f) {
-				qy3 = 9;
-				qYnumbers.push_back(qy3);
-			}
-			else if (flattenedVertices[203] == 0.05517578125f) {
-				qy3 = 0;
-				qYnumbers.push_back(qy3);
-			}
-			else {
-				//do nothing
-			}
-			//Fourth quad number
-			if (flattenedVertices[223] == 0.04833984375f) {
-				qy4 = 1;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.05224609375f) {
-				qy4 = 2;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.0537109375f) {
-				qy4 = 3;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.0595703125f) {
-				qy4 = 4;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.05810546875f) {
-				qy4 = 5;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.05078125f) {
-				qy4 = 6;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.04931640625f) {
-				qy4 = 7;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.056640625f) {
-				qy4 = 8;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.046875f) {
-				qy4 = 9;
-				qYnumbers.push_back(qy4);
-			}
-			else if (flattenedVertices[223] == 0.05517578125f) {
-				qy4 = 0;
-				qYnumbers.push_back(qy4);
-			}
-			else {
-				//do nothing
-			}
-			//Fifth quad number
-			if (flattenedVertices[243] == 0.04833984375f) {
-				qy5 = 1;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.05224609375f) {
-				qy5 = 2;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.0537109375f) {
-				qy5 = 3;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.0595703125f) {
-				qy5 = 4;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.05810546875f) {
-				qy5 = 5;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.05078125f) {
-				qy5 = 6;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.04931640625f) {
-				qy5 = 7;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.056640625f) {
-				qy5 = 8;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.046875f) {
-				qy5 = 9;
-				qYnumbers.push_back(qy5);
-			}
-			else if (flattenedVertices[243] == 0.05517578125f) {
-				qy5 = 0;
-				qYnumbers.push_back(qy5);
-			}
-			else {
-				//do nothing
-			}
-			//=========================== COVERT ARRAY TO NUMBER!!! ========================
-			for (int num : qXnumbers) {
-				gridCellX = gridCellX * 10 + num;
-			}
-			for (int num : qYnumbers) {
-				gridCellY = gridCellY * 10 + num;
-			}
-			shouldUpdateGrid = true;
-			wasPressedLastFrame = true;
-		}
-		else if (!buttonIsPressed) {
-			wasPressedLastFrame = false;
-		}
 		}
 	}
 

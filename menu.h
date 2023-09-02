@@ -155,7 +155,7 @@ struct Menu {
 				std::cout << "You clicked Options";
 			}
 			else if (hoveringQuit) {
-				std::cout << "You clicked Quit";
+				glfwTerminate();
 			}
 			initialPressChecked = true;
 		}
@@ -175,9 +175,6 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			if (buttonIsPressed) {
-				//
-			}
 		}
 		else {
 			hoveringNewGame = false;
@@ -202,9 +199,6 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			if (buttonIsPressed) {
-				//do something here
-			}
 		}
 		else {
 			hoveringLoadGame = false;
@@ -253,9 +247,6 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu) * menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			if (buttonIsPressed) {
-				//do something here
-			}
 		}
 		else {
 			hoveringOptions = false;
@@ -280,9 +271,6 @@ struct Menu {
 			glBindBuffer(GL_ARRAY_BUFFER, menuInstanceVBO);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataMenu)* menuInstances.size(), menuInstances.data());
 			glBindVertexArray(menuVAO);
-			if (buttonIsPressed) {
-				//do something here
-			}
 		}
 		else {
 			hoveringQuit = false;

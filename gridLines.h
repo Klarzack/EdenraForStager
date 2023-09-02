@@ -57,6 +57,7 @@ struct GridLines {
 	}
 
 	void deleteGridLines() {
+		gridLinesInstanceOffsets.clear();
 		glDeleteVertexArrays(1, &linesVAO);
 		glDeleteBuffers(1, &linesVBO);
 		glDeleteBuffers(1, &linesInstanceVBO);

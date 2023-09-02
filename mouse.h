@@ -2,9 +2,35 @@
 
 #include <GLFW/glfw3.h>
 #include "gameState.h"
+#include "stb_image.h"
 
 extern float xpos;
 extern float ypos;
+
+GLuint cursorTexture{};
+
+struct CustomCursor {
+    void loadImage(GLFWwindow* window) {
+        int width, height, nrChannels;
+        unsigned char* data = stbi_load("C:/Users/istra/Edenra/Edenra/images/Cursor.png", &width, &height, &nrChannels, STBI_rgb_alpha);
+        if (!data) {
+            std::cout << "Failed to load texture for the cursor" << std::endl;
+            return;
+        }
+
+        GLFWimage image;
+        image.width = width;
+        image.height = height;
+        image.pixels = data;
+
+        GLFWcursor* cursor = glfwCreateCursor(&image, 0, 0);
+
+        // Set the cursor for a window (assuming you have a window pointer named 'window')
+        glfwSetCursor(window, cursor);
+
+        stbi_image_free(data);
+    }
+};
 
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {

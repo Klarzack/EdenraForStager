@@ -6,14 +6,14 @@
 #include "stb_image.h"
 #include "glm/glm.hpp"
 
-GLfloat gridCell[] {
+GLfloat gridCell[]{
 	-32.0f, 32.0f, 0.0f,
 	32.0f, 32.0f, 0.0f,
 	32.0f, -32.0f, 0.0f,
 	-32.0f, -32.0f, 0.0f
 };
 
-int gridCellIndices[] {
+int gridCellIndices[]{
 	0, 1, 2,
 	0, 2, 3
 };
@@ -23,19 +23,11 @@ struct InstanceDataGrid {
 	glm::vec2 textureCoords[4]{};
 };
 
-std::vector<InstanceDataGrid> gridCellInstanceOffsets {
-};
+std::vector<InstanceDataGrid> gridCellInstanceOffsets{}; //main vector where all the grid cells are stored
 
-std::vector<InstanceDataGrid> visibleCells{};
+std::vector<InstanceDataGrid> visibleCells{}; //vector that contains the cells within the camera view - frustum culling vector
 
-//struct Chunk {
-//	std::vector<InstanceDataGrid> cells{};
-//};
-//
-//std::vector<Chunk> chunks{};
-//Chunk chunk;
-
-GLuint cellVAO{}, cellVBO{}, cellEBO{}, cellInstanceVBO{}, visibleCellInstanceVBO{}, gridTexture{};
+GLuint cellVAO{}, cellVBO{}, cellEBO{}, cellInstanceVBO{}, gridTexture{};
 
 struct Grid {
 
@@ -72,7 +64,7 @@ struct Grid {
 		instance.textureCoords[2] = glm::vec2(0.048828125f, 0.962890625f); // bottom right
 		instance.textureCoords[3] = glm::vec2(0.041015625f, 0.962890625f); // bottom left
 		gridCellInstanceOffsets.push_back(instance);
-		for (int i{1}; i <= columns; i++) {
+		for (int i{ 1 }; i <= columns; i++) {
 			vertexX = 32.0f;
 			if (i > 1) {
 				vertexY = vertexY + 64.0f;
@@ -124,7 +116,7 @@ struct Grid {
 
 	void drawGrid() {
 		glBindVertexArray(cellVAO);
-		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(visibleCells.size()));
+		glDrawElementsInstanced(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(gridCellInstanceOffsets.size()));
 		glBindVertexArray(0);
 	}
 

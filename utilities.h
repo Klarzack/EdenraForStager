@@ -34,7 +34,7 @@ GLuint createShaderProgram(const char* vShaderSource, const char* fShaderSource)
     glCompileShader(vShader);
     glGetShaderiv(vShader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        glGetProgramInfoLog(vShader, 512, NULL, infoLog);
+        glGetShaderInfoLog(vShader, 512, NULL, infoLog);
         std::cerr << "Vertex shader failed to compile! " << infoLog << std::endl;
     }
     unsigned int fShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -42,7 +42,7 @@ GLuint createShaderProgram(const char* vShaderSource, const char* fShaderSource)
     glCompileShader(fShader);
     glGetShaderiv(fShader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        glGetProgramInfoLog(fShader, 512, NULL, infoLog);
+        glGetShaderInfoLog(fShader, 512, NULL, infoLog);
         std::cerr << "Fragment shader failed to compile! " << infoLog << std::endl;
     }
     unsigned int sProgram = glCreateProgram();
