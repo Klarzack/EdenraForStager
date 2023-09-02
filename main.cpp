@@ -111,22 +111,28 @@ int main() {
 	Camera camera;
 	camera.createCamera();
 	//======================= Menu =====================================
+	glUseProgram(shaderProgramMenu);
 	Menu menu;
 	menu.loadTexture();
 	menu.populateMenu();
 	menu.createMenu();
 	bool isMenuAtlasActivated = false;
 	//======================= Grid =================================
+	glUseProgram(shaderProgram);
 	Grid grid;
 	grid.loadTexture();
+	grid.createGrid();
 	//====================== Editor ================================
+	glUseProgram(shaderProgramEditor);
 	Editor editor;
 	editor.loadTexture();
 	editor.populateEditor();
 	editor.createEditor();
 	bool isEditorAtlasActivated = false;
 	//===================== Grid Lines =============================
+	glUseProgram(shaderProgramLines);
 	GridLines lines;
+	lines.createGridLines();
 	bool frustumOff = false;
 
 	while (!glfwWindowShouldClose(window))
@@ -183,7 +189,7 @@ int main() {
 				frustumOff = false;
 			}
 			if (!frustumOff) {
-				//camera.activateFrustumCulling();
+				camera.activateFrustumCulling();
 			}
 			grid.drawGrid();
 
@@ -195,7 +201,7 @@ int main() {
 				glUniformMatrix4fv(linesMatrixLocation, 1, GL_FALSE, glm::value_ptr(linesMatrix));
 				if (shouldUpdateLines) {
 					lines.deleteGridLines();
-					lines.populateGridLines((roundUp(gridCellY / 64.0)) + 1, (roundUp(gridCellX / 64.0)) + 2); // +1 to the first parameter always, +2 to the second. ALWAYS!!!!!!!!!!!!!
+					lines.populateGridLines((roundUp(gridCellY / 64.0)) + 1, (roundUp(gridCellX / 64.0)) + 1); // +1 to the first parameter always, +2 to the second. ALWAYS!!!!!!!!!!!!!
 					lines.createGridLines();
 					shouldUpdateLines = false;
 				}

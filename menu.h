@@ -414,10 +414,9 @@ struct Menu {
 		interpretData(6, 2, GL_FLOAT, GL_FALSE, sizeof(InstanceDataMenu), (void*)(2 * sizeof(glm::vec3) + 3 * sizeof(glm::vec2)), 6);
 		glVertexAttribDivisor(6, 1);
 
-		unbindObjects(menuVAO);
-		unbindObjects(menuVBO);
-		unbindObjects(menuEBO);
-		unbindObjects(menuInstanceVBO);
+		unbindObjects(GL_VERTEX_ARRAY);
+		unbindObjects(GL_ARRAY_BUFFER);
+		unbindObjects(GL_ELEMENT_ARRAY_BUFFER);
 	}
 
 	void drawMenu() {

@@ -62,8 +62,8 @@ int gridCellY{};
 
 bool shouldUpdateGrid = false;
 bool shouldUpdateLines = false;
-bool isGridLinesToggled;
-bool initialPressCheckedEditor;
+bool isGridLinesToggled = false;
+bool initialPressCheckedEditor = false;
 bool hoveringToggleGridButton = false;
 
 struct Editor {
@@ -2843,6 +2843,10 @@ struct Editor {
 		interpretData(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0, 0);
 		interpretData(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)), 1);
 		createBufferObjects(GL_ELEMENT_ARRAY_BUFFER, 1, editorEBO, flattenedIndices.size() * sizeof(GLint), flattenedIndices.data(), GL_STATIC_DRAW);
+
+		unbindObjects(GL_VERTEX_ARRAY);
+		unbindObjects(GL_ARRAY_BUFFER);
+		unbindObjects(GL_ELEMENT_ARRAY_BUFFER);
 	}
 
 	void drawEditor() {

@@ -45,23 +45,23 @@ struct Camera {
 		}
 	}
 
-	//void activateFrustumCulling() {
-	//	visibleCells.clear();
-	//	// camera bounds with padding
-	//	float leftBound = cameraPosition.x - 100; // + 100px padding on all sides
-	//	float rightBound = cameraPosition.x + 2020;
-	//	float topBound = cameraPosition.y + 1180;
-	//	float bottomBound = cameraPosition.y - 100;
+	void activateFrustumCulling() {
+	visibleCells.clear();
+	// camera bounds with padding
+	float leftBound = cameraPosition.x - 100; // + 100px padding on all sides
+	float rightBound = cameraPosition.x + 2020;
+	float topBound = cameraPosition.y + 1180;
+	float bottomBound = cameraPosition.y - 100;
 
-	//	for (auto& instance : gridCellInstanceOffsets) {
+		for (auto& instance : gridCellInstanceOffsets) {
 
-	//		if (instance.offset.x >= leftBound && instance.offset.x <= rightBound && instance.offset.y >= bottomBound
-	//			&& instance.offset.y <= topBound) {
-	//			visibleCells.push_back(instance);
-	//		}
-	//	}
-	//	glBindBuffer(GL_ARRAY_BUFFER, cellInstanceVBO);
-	//	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(InstanceDataGrid) * visibleCells.size(), visibleCells.data());
-	//	glBindVertexArray(cellVAO);
-	//}
+			if (instance.offset.x >= leftBound && instance.offset.x <= rightBound && instance.offset.y >= bottomBound
+				&& instance.offset.y <= topBound) {
+				visibleCells.push_back(instance);
+			}
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, cellInstanceVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(InstanceDataGrid) * visibleCells.size(), visibleCells.data(), GL_DYNAMIC_DRAW);
+		glBindVertexArray(cellVAO);
+	}
 };
