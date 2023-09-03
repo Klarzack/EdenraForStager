@@ -6,14 +6,14 @@ layout (location = 3) in vec2 vertexTexture1;
 layout (location = 4) in vec2 vertexTexture2;
 layout (location = 5) in vec2 vertexTexture3;
 
-out vec2 texture;
+out vec2 textureCoords;
 
 uniform mat4 projection;
 uniform mat4 transform;
 uniform mat4 view;
 
 void main() {
-	vec2 textureArray[] = {vertexTexture0, vertexTexture1, vertexTexture2, vertexTexture3};
-	texture = textureArray[gl_VertexID];
-	gl_Position = projection * view * transform * vec4(vertexPosition + vertexOffset, 1.0);
+    vec2 textureArray[4] = vec2[](vertexTexture0, vertexTexture1, vertexTexture2, vertexTexture3);
+    textureCoords = textureArray[gl_VertexID];
+    gl_Position = projection * view * transform * vec4(vertexPosition + vertexOffset, 1.0);
 }

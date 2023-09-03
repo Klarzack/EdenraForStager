@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
     <ClInclude Include="editor.h" />
+    <ClInclude Include="errorChecking.h" />
     <ClInclude Include="gameState.h" />
     <ClInclude Include="grid.h" />
     <ClInclude Include="gridLines.h" />

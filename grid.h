@@ -52,44 +52,6 @@ struct Grid {
 		}
 		stbi_image_free(data);
 	}
-	// this is my way of generating a grid. In case the grid below doesn't work as I want it to, come back to this worse, yet workable version
-
-	//void populateGrid(int columns, int rows) {
-	//	//FIRST PARAMETER IS Y, SECOND PARAMETER IS X, MEANING COLUMNS IS Y, ROWS IS X HERE
-	//	InstanceDataGrid instance;
-	//	float vertexX = 32.0f;
-	//	float vertexY = 32.0f;
-	//	instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
-	//	instance.textureCoords[0] = glm::vec2(1.0f, 0.970703125f); // top left
-	//	instance.textureCoords[1] = glm::vec2(0.048828125f, 0.970703125f); // top right
-	//	instance.textureCoords[2] = glm::vec2(0.048828125f, 0.962890625f); // bottom right
-	//	instance.textureCoords[3] = glm::vec2(0.041015625f, 0.962890625f); // bottom left
-	//	gridCellInstanceOffsets.push_back(instance);
-	//	for (int i{ 1 }; i <= columns; i++) {
-	//		vertexX = 32.0f;
-	//		if (i > 1) {
-	//			vertexY = vertexY + 64.0f;
-	//		}
-	//		for (int j{ 1 }; j <= rows; j++) {
-	//			if (j < 2) {
-	//				vertexX = 32.0f;
-	//				instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
-	//				instance.textureCoords[0] = glm::vec2(0.041015625f, 0.970703125f); // top left
-	//				instance.textureCoords[1] = glm::vec2(0.048828125f, 0.970703125f); // top right
-	//				instance.textureCoords[2] = glm::vec2(0.048828125f, 0.962890625f); // bottom right
-	//				instance.textureCoords[3] = glm::vec2(0.041015625f, 0.962890625f); // bottom left
-	//				gridCellInstanceOffsets.push_back(instance);
-	//			}
-	//			vertexX = vertexX + 64.0f;
-	//			instance.offset = glm::vec3(vertexX, vertexY, 0.0f);
-	//			instance.textureCoords[0] = glm::vec2(0.041015625f, 0.970703125f); // top left  Y is inverted, so if it starts at height 60, it's 2048 - 60
-	//			instance.textureCoords[1] = glm::vec2(0.048828125f, 0.970703125f); // top right same here
-	//			instance.textureCoords[2] = glm::vec2(0.048828125f, 0.962890625f); // bottom right same here
-	//			instance.textureCoords[3] = glm::vec2(0.041015625f, 0.962890625f); // bottom left same here
-	//			gridCellInstanceOffsets.push_back(instance);
-	//		}
-	//	}
-	//}
 
 	void populateGrid(int columns, int rows) {
 		float initialX = 32.0f;
@@ -154,6 +116,7 @@ struct Grid {
 	void activateAtlas(GLuint shaderProgram) {
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, gridTexture);
+		glUseProgram(shaderProgram); // Ensures that glUniform will always set the value in shaderProgram and not some other, previously bound program
 		glUniform1i(glGetUniformLocation(shaderProgram, "textureAtlasGrid"), 1);
 	}
 };

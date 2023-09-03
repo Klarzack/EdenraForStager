@@ -7,14 +7,14 @@ layout (location = 4) in vec2 vertexTextureCoords1;
 layout (location = 5) in vec2 vertexTextureCoords2; 
 layout (location = 6) in vec2 vertexTextureCoords3;
 
-out vec2 texture;
+out vec2 textureCoords;
 
 uniform mat4 projection;
 uniform mat4 transform;
 uniform mat4 view;
 
 void main() {
-    vec2 instanceTextureCoords[] = {vertexTextureCoords0, vertexTextureCoords1, vertexTextureCoords2, vertexTextureCoords3};
-    texture = instanceTextureCoords[gl_VertexID];
+    vec2 instanceTextureCoords[4] = vec2[](vertexTextureCoords0, vertexTextureCoords1, vertexTextureCoords2, vertexTextureCoords3);
+    textureCoords = instanceTextureCoords[gl_VertexID];
     gl_Position = projection * view * transform * vec4(vertexPosition * vertexScale + vertexOffset, 1.0);
 }

@@ -48,12 +48,10 @@ struct GridLines {
 		createBufferObjects(GL_ARRAY_BUFFER, 1, linesInstanceVBO, sizeof(InstanceDataGridLines) * gridLinesInstanceOffsets.size(), gridLinesInstanceOffsets.data(), GL_STATIC_DRAW);
 		interpretData(1, 3, GL_FLOAT, GL_FALSE, sizeof(InstanceDataGridLines), (void*)0, 1);
 		glVertexAttribDivisor(1, 1);
-
-		unbindObjects(GL_VERTEX_ARRAY);
-		unbindObjects(GL_ARRAY_BUFFER);
 	}
 
-	void drawGridLines() {
+	void drawGridLines(GLuint shaderProgram) {
+		glUseProgram(shaderProgram);
 		glBindVertexArray(linesVAO);
 		glDrawArraysInstanced(GL_LINES, 0, 4, static_cast<GLsizei>(gridLinesInstanceOffsets.size()));
 		glBindVertexArray(0);

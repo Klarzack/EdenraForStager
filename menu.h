@@ -7,6 +7,7 @@
 #include <vector>
 #include "stb_image.h"
 #include "mouse.h"
+#include "errorChecking.h"
 
 GLfloat menuQuad[]{
 	-250.0f, 250.0f, 0.0f, 
@@ -28,7 +29,7 @@ struct InstanceDataMenu {
 	glm::vec2 textureCoords[4]{};
 };
 
-std::vector<InstanceDataMenu> menuInstances;
+std::vector<InstanceDataMenu> menuInstances{};
 
 extern float xpos;
 extern float ypos;

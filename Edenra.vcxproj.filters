@@ -47,6 +47,9 @@
     <ClInclude Include="gridLines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="errorChecking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vert" />

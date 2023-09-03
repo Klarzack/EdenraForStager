@@ -2858,6 +2858,7 @@ struct Editor {
 	void activateAtlas(GLuint shaderProgram) {
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, editorTexture);
+		glUseProgram(shaderProgram); // Ensures that glUniform will always set the value in shaderProgram and not some other, previously bound program
 		glUniform1i(glGetUniformLocation(shaderProgram, "textureAtlasEditor"), 2);
 	}
 };
